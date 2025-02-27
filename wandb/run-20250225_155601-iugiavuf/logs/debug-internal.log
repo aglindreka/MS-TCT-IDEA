@@ -1,0 +1,15 @@
+{"time":"2025-02-25T15:56:01.828424633+01:00","level":"INFO","msg":"stream: starting","core version":"0.19.6","symlink path":"/data/stars/user/areka/MS-TCT/wandb/run-20250225_155601-iugiavuf/logs/debug-core.log"}
+{"time":"2025-02-25T15:56:01.938478853+01:00","level":"INFO","msg":"created new stream","id":"iugiavuf"}
+{"time":"2025-02-25T15:56:01.938794337+01:00","level":"INFO","msg":"stream: started","id":"iugiavuf"}
+{"time":"2025-02-25T15:56:01.938863413+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"iugiavuf"}
+{"time":"2025-02-25T15:56:01.938866605+01:00","level":"INFO","msg":"handler: started","stream_id":"iugiavuf"}
+{"time":"2025-02-25T15:56:01.938871838+01:00","level":"INFO","msg":"sender: started","stream_id":"iugiavuf"}
+{"time":"2025-02-25T15:56:02.165690793+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-02-25T15:56:50.678379972+01:00","level":"INFO","msg":"stream: closing","id":"iugiavuf"}
+{"time":"2025-02-25T15:56:50.678458228+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-02-25T15:56:50.679501234+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-02-25T15:56:51.546611672+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-02-25T15:56:51.79992976+01:00","level":"INFO","msg":"handler: closed","stream_id":"iugiavuf"}
+{"time":"2025-02-25T15:56:51.799990092+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":"iugiavuf"}
+{"time":"2025-02-25T15:56:51.800002732+01:00","level":"INFO","msg":"sender: closed","stream_id":"iugiavuf"}
+{"time":"2025-02-25T15:56:51.800826853+01:00","level":"INFO","msg":"stream: closed","id":"iugiavuf"}

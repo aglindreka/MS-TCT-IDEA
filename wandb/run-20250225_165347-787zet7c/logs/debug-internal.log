@@ -1,0 +1,7 @@
+{"time":"2025-02-25T16:53:48.148370877+01:00","level":"INFO","msg":"stream: starting","core version":"0.19.6","symlink path":"/data/stars/user/areka/MS-TCT/wandb/run-20250225_165347-787zet7c/logs/debug-core.log"}
+{"time":"2025-02-25T16:53:48.260079652+01:00","level":"INFO","msg":"created new stream","id":"787zet7c"}
+{"time":"2025-02-25T16:53:48.260444409+01:00","level":"INFO","msg":"stream: started","id":"787zet7c"}
+{"time":"2025-02-25T16:53:48.260473594+01:00","level":"INFO","msg":"handler: started","stream_id":"787zet7c"}
+{"time":"2025-02-25T16:53:48.260471015+01:00","level":"INFO","msg":"sender: started","stream_id":"787zet7c"}
+{"time":"2025-02-25T16:53:48.260465083+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"787zet7c"}
+{"time":"2025-02-25T16:53:48.494148425+01:00","level":"INFO","msg":"Starting system monitor"}

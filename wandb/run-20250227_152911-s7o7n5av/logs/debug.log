@@ -1,0 +1,3 @@
+2025-02-27 15:29:11,949 INFO    MainThread:150217 [wandb_setup.py:_flush():68] Current SDK version is 0.19.6
+2025-02-27 15:29:11,950 INFO    MainThread:150217 [wandb_setup.py:_flush():68] Configure stats pid to 150217
+2025-02-27 15:29:11,951 INFO    MainThread:150217 [wandb_setup.py:_flush():68] Loading settings from /home/areka/.config/wandb/settings

@@ -1,0 +1,1 @@
+{"_runtime":864.174120081,"train_loss":15.590038299560547,"train_map_macro":30.631649017333984,"last_lr":3.125e-07,"_timestamp":1.7405910577319357e+09,"val_map_macro":38.11271286010742,"_step":79,"_wandb":{"runtime":864},"val_map_micro":56.74095153808594,"val_loss":19.553556442260742,"train_map_micro":75.60987854003906}

@@ -1,0 +1,60 @@
+Epoch 0/199
+----------
+/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/functional.py:1944: UserWarning: nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.
+  warnings.warn("nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.")
+/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/_reduction.py:42: UserWarning: size_average and reduce args will be deprecated, please use reduction='sum' instead.
+  warnings.warn(warning.format(ret))
+/data/stars/user/areka/MS-TCT/apmeter.py:118: UserWarning: torch.range is deprecated and will be removed in a future release because its behavior is inconsistent with Python's range builtin. Instead, use torch.arange, which produces values in [start, end).
+  rg = torch.range(1, self.scores.size(0)).float()
+/data/stars/user/areka/MS-TCT/apmeter.py:145: UserWarning: indexing with dtype torch.uint8 is now deprecated, please use a dtype torch.bool instead. (Triggered internally at  /opt/conda/conda-bld/pytorch_1646755888698/work/aten/src/ATen/native/IndexingUtils.h:28.)
+  ap[k] = precision[truth.byte()].sum() / max(truth.sum(), 1)
+epoch 0 train-map_macro: tensor(7.2053)
+epoch 0 train-map_micro: tensor(15.4018)
+epoch 0 Full-val-map_macro: tensor(16.6536)
+epoch 0 Full-val-map_micro: tensor(29.8315)
+epoch 0 sampled-val-map: tensor(18.0966)
+tensor([20.0658,  8.3418, 46.7603,  0.0000, 14.3837,  8.8963, 24.9796,  0.0000,
+        16.3566, 33.4240,  0.0000,  6.2372,  1.5208,  0.0000,  0.0000])
+epoch 0 Total_Time 12.888434410095215 Epoch_time 12.888432264328003
+epoch 0 Best Val Map Update tensor(16.6536)
+logit_saved at: ./save_logit/0.pkl
+Epoch 1/199
+----------
+epoch 1 train-map_macro: tensor(8.8323)
+epoch 1 train-map_micro: tensor(38.6376)
+epoch 1 Full-val-map_macro: tensor(19.4483)
+epoch 1 Full-val-map_micro: tensor(29.6860)
+epoch 1 sampled-val-map: tensor(21.0555)
+tensor([25.8216, 10.2853, 46.8930,  0.0000, 13.9461,  9.3618, 23.9916,  0.0000,
+        23.4094, 48.5373,  0.0000,  6.6008,  1.7085,  0.0000,  0.0000])
+epoch 1 Total_Time 23.824387311935425 Epoch_time 10.931726455688477
+epoch 1 Best Val Map Update tensor(19.4483)
+logit_saved at: ./save_logit/1.pkl
+Epoch 2/199
+----------
+Traceback (most recent call last):
+  File "/data/stars/user/areka/MS-TCT/train.py", line 299, in <module>
+    run([(rgb_model, 0, dataloaders, optimizer, lr_sched, args.comp_info)], criterion, num_epochs=int(args.epoch))
+  File "/data/stars/user/areka/MS-TCT/train.py", line 110, in run
+    train_map_macro, train_loss, last_lr, train_map_micro = train_step(model, gpu, optimizer, dataloader['train'], epoch)
+  File "/data/stars/user/areka/MS-TCT/train.py", line 181, in train_step
+    outputs, loss, probs, err = run_network(model, data, gpu, epoch)
+  File "/data/stars/user/areka/MS-TCT/train.py", line 154, in run_network
+    outputs_final,out_hm = model(inputs)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/stars/user/areka/MS-TCT/MSTCT/MSTCT_Model.py", line 27, in forward
+    x = self.TemporalEncoder(inputs)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/stars/user/areka/MS-TCT/MSTCT/Temporal_Encoder.py", line 261, in forward
+    x = blk(x)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/stars/user/areka/MS-TCT/MSTCT/Temporal_Encoder.py", line 148, in forward
+    if self.Global_Relational_Block(self.norm1(x)).shape[1] == 78:
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/stars/user/areka/MS-TCT/MSTCT/Temporal_Encoder.py", line 97, in forward
+    kv = self.kv(x).reshape(B, -1, 2, self.num_heads, C // self.num_heads).permute(2, 0, 3, 1, 4)
+KeyboardInterrupt

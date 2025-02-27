@@ -1,0 +1,15 @@
+{"time":"2025-02-26T12:45:13.538328413+01:00","level":"INFO","msg":"stream: starting","core version":"0.19.6","symlink path":"/data/stars/user/areka/MS-TCT/wandb/run-20250226_124510-icth6lxp/logs/debug-core.log"}
+{"time":"2025-02-26T12:45:13.946993648+01:00","level":"INFO","msg":"created new stream","id":"icth6lxp"}
+{"time":"2025-02-26T12:45:13.947305419+01:00","level":"INFO","msg":"stream: started","id":"icth6lxp"}
+{"time":"2025-02-26T12:45:13.947436841+01:00","level":"INFO","msg":"sender: started","stream_id":"icth6lxp"}
+{"time":"2025-02-26T12:45:13.947411344+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"icth6lxp"}
+{"time":"2025-02-26T12:45:13.947455141+01:00","level":"INFO","msg":"handler: started","stream_id":"icth6lxp"}
+{"time":"2025-02-26T12:45:15.137458532+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-02-26T12:45:22.20932632+01:00","level":"INFO","msg":"stream: closing","id":"icth6lxp"}
+{"time":"2025-02-26T12:45:22.209565811+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-02-26T12:45:22.211089127+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-02-26T12:45:23.540420826+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-02-26T12:45:23.717762602+01:00","level":"INFO","msg":"handler: closed","stream_id":"icth6lxp"}
+{"time":"2025-02-26T12:45:23.717830953+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":"icth6lxp"}
+{"time":"2025-02-26T12:45:23.717843165+01:00","level":"INFO","msg":"sender: closed","stream_id":"icth6lxp"}
+{"time":"2025-02-26T12:45:23.809098207+01:00","level":"INFO","msg":"stream: closed","id":"icth6lxp"}

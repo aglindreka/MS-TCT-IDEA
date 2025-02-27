@@ -145,3 +145,29 @@ class APMeter(Meter):
             ap[k] = precision[truth.byte()].sum() / max(truth.sum(), 1)
 
         return ap
+
+    def value_micro(self):
+        """Returns the model's micro average precision"""
+        if self.scores.numel() == 0:
+            return 0
+
+        # Flatten scores and targets
+        scores = self.scores.view(-1)
+        targets = self.targets.view(-1)
+
+        # Sort scores and corresponding targets
+        _, sortind = torch.sort(scores, 0, True)
+        truth = targets[sortind]
+
+        # Compute cumulative TP and FP
+        tp = truth.float().cumsum(0)
+        fp = (1 - truth).float().cumsum(0)
+
+        # Compute precision and recall
+        precision = tp / (tp + fp)
+        # recall = tp / truth.sum()
+
+        # Compute average precision
+        ap_micro = precision[truth.bool()].sum() / max(truth.sum(), 1)
+
+        return ap_micro

@@ -1,0 +1,12 @@
+Epoch 0/79
+----------
+1
+1
+1
+torch.Size([1, 64, 384])
+torch.Size([1, 64, 384])
+torch.Size([1, 64, 384])
+torch.Size([1, 32, 576])
+torch.Size([1, 32, 576])
+torch.Size([1, 32, 576])
+torch.Size([1, 16, 864])

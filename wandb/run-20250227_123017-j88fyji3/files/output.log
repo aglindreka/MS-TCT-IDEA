@@ -1,0 +1,42 @@
+Epoch 0/79
+----------
+torch.Size([1, 128, 256])
+torch.Size([1, 128, 256])
+torch.Size([1, 128, 256])
+torch.Size([1, 64, 384])
+torch.Size([1, 64, 384])
+torch.Size([1, 64, 384])
+torch.Size([1, 32, 576])
+torch.Size([1, 32, 576])
+torch.Size([1, 32, 576])
+torch.Size([1, 16, 864])
+torch.Size([1, 16, 864])
+torch.Size([1, 16, 864])
+Traceback (most recent call last):
+  File "/data/stars/user/areka/MS-TCT/train.py", line 299, in <module>
+    run([(rgb_model, 0, dataloaders, optimizer, lr_sched, args.comp_info)], criterion, num_epochs=int(args.epoch))
+  File "/data/stars/user/areka/MS-TCT/train.py", line 110, in run
+    train_map_macro, train_loss, last_lr, train_map_micro = train_step(model, gpu, optimizer, dataloader['train'], epoch)
+  File "/data/stars/user/areka/MS-TCT/train.py", line 181, in train_step
+    outputs, loss, probs, err = run_network(model, data, gpu, epoch)
+  File "/data/stars/user/areka/MS-TCT/train.py", line 154, in run_network
+    outputs_final,out_hm = model(inputs)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/stars/user/areka/MS-TCT/MSTCT/MSTCT_Model.py", line 30, in forward
+    concat_feature, concat_feature_hm = self.Temporal_Mixer(x)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/stars/user/areka/MS-TCT/MSTCT/TS_Mixer.py", line 84, in forward
+    beta = self.GatingMechanism(concat_feature, concat_feature_hm)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/stars/user/areka/MS-TCT/MSTCT/TS_Mixer.py", line 16, in forward
+    hidden = F.relu(self.fc1(combined_outputs))
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/conv.py", line 302, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/conv.py", line 298, in _conv_forward
+    return F.conv1d(input, weight, bias, self.stride,
+RuntimeError: Given groups=1, weight of size [32, 4096, 1], expected input[1, 256, 2048] to have 4096 channels, but got 256 channels instead

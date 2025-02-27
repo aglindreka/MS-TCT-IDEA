@@ -2,6 +2,23 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+class GatingMechanism(nn.Module):
+    def __init__(self, output_dim, hidden_dim):
+        super(GatingMechanism, self).__init__()
+        self.fc1 = nn.Conv1d(output_dim*2, hidden_dim, kernel_size=1, stride=1, padding=0)
+        self.fc2 = nn.Conv1d(hidden_dim, 1, kernel_size=1, stride=1, padding=0)
+
+
+    def forward(self, output1, output2):
+
+        combined_outputs = torch.cat((output1, output2), dim=1)
+
+        hidden = F.relu(self.fc1(combined_outputs))
+        gate = torch.sigmoid(self.fc2(hidden))
+
+
+        #print('I am here: ', gate.shape)
+        return gate
 
 class linear_layer(nn.Module):
     #
@@ -40,6 +57,7 @@ class Temporal_Mixer(nn.Module):
         self.linear2 = nn.Conv1d(embedding_dim, embedding_dim, kernel_size=1)
         self.linear3 = nn.Conv1d(embedding_dim, embedding_dim, kernel_size=1)
         self.linear4 = nn.Conv1d(embedding_dim, embedding_dim, kernel_size=1)
+        self.GatingMechanism = GatingMechanism(2048, 32)
 
     def forward(self, x):
         f1, f2, f3, f4 = x
@@ -63,5 +81,6 @@ class Temporal_Mixer(nn.Module):
 
         concat_feature=torch.cat([_f4, _f3_n, _f2_n, _f1_n], dim=1)
         concat_feature_hm = torch.cat([_f4, _f3, _f2, _f1], dim=1)
+
 
         return concat_feature, concat_feature_hm

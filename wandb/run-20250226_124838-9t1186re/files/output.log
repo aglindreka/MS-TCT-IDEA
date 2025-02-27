@@ -1,0 +1,45 @@
+Epoch 0/199
+----------
+/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/functional.py:1944: UserWarning: nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.
+  warnings.warn("nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.")
+/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/_reduction.py:42: UserWarning: size_average and reduce args will be deprecated, please use reduction='sum' instead.
+  warnings.warn(warning.format(ret))
+/data/stars/user/areka/MS-TCT/apmeter.py:118: UserWarning: torch.range is deprecated and will be removed in a future release because its behavior is inconsistent with Python's range builtin. Instead, use torch.arange, which produces values in [start, end).
+  rg = torch.range(1, self.scores.size(0)).float()
+/data/stars/user/areka/MS-TCT/apmeter.py:145: UserWarning: indexing with dtype torch.uint8 is now deprecated, please use a dtype torch.bool instead. (Triggered internally at  /opt/conda/conda-bld/pytorch_1646755888698/work/aten/src/ATen/native/IndexingUtils.h:28.)
+  ap[k] = precision[truth.byte()].sum() / max(truth.sum(), 1)
+epoch 0 train-map_macro: tensor(2.5655)
+epoch 0 train-map_micro: tensor(3.9392)
+epoch 0 Full-val-map_macro: tensor(3.8067)
+epoch 0 Full-val-map_micro: tensor(14.2981)
+epoch 0 sampled-val-map: tensor(3.7128)
+tensor([9.9192e+00, 1.2660e+00, 7.4281e-02, 5.0845e-01, 9.3383e-01, 3.8373e+00,
+        2.1582e+00, 5.6015e+00, 1.7927e+01, 9.4832e+00, 2.0698e+00, 7.0068e+00,
+        4.7193e+00, 3.7367e+00, 1.9004e-01, 4.3126e-01, 1.1179e-01, 2.2341e+00,
+        1.5026e-01, 1.5632e+01, 4.8652e+00, 3.3681e+01, 2.4060e+00, 7.8123e+00,
+        1.3837e+01, 4.9671e+00, 7.2455e-01, 3.9356e-01, 1.2165e+00, 8.2668e-01,
+        1.7905e+00, 4.7619e-01, 1.6054e-01, 2.4515e-01, 9.8105e-01, 3.0054e-01,
+        1.9270e-01, 6.6332e-01, 9.9764e-01, 1.4583e+00, 3.2807e-01, 1.3978e+00,
+        1.0670e+00, 1.2725e+00, 2.6241e-01, 9.5779e-02, 8.8077e-03, 5.4437e-01,
+        2.0027e-01, 1.8260e+01, 3.3587e+00, 2.8526e-01])
+epoch 0 Total_Time 1637.6837496757507 Epoch_time 1637.683747768402
+epoch 0 Best Val Map Update tensor(3.8067)
+logit_saved at: ./save_logit/0.pkl
+Epoch 1/199
+----------
+Traceback (most recent call last):
+  File "/data/stars/user/areka/MS-TCT/train.py", line 299, in <module>
+    run([(rgb_model, 0, dataloaders, optimizer, lr_sched, args.comp_info)], criterion, num_epochs=int(args.epoch))
+  File "/data/stars/user/areka/MS-TCT/train.py", line 110, in run
+    train_map_macro, train_loss, last_lr, train_map_micro = train_step(model, gpu, optimizer, dataloader['train'], epoch)
+  File "/data/stars/user/areka/MS-TCT/train.py", line 187, in train_step
+    optimizer.step()
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/optim/optimizer.py", line 88, in wrapper
+    return func(*args, **kwargs)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/optim/adamw.py", line 145, in step
+    F.adamw(params_with_grad,
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/optim/_functional.py", line 144, in adamw
+    exp_avg_sq.mul_(beta2).addcmul_(grad, grad, value=1 - beta2)
+KeyboardInterrupt
