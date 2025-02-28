@@ -15,4 +15,4 @@ python train.py \
 -alpha_l 10 \
 -beta_l 1 \
 -batch_size 1 \
--num_layer 12
+-num_layer 10

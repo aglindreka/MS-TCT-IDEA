@@ -103,7 +103,8 @@ class Charades(data_utl.Dataset):
 
     def __init__(self, split_file, split, root_rgb, root_flow, batch_size, classes, num_clips, skip):
 
-        self.data = make_dataset(split_file, split, root_rgb, root_flow, classes)
+        self.data_rgb, self.data_flow = make_dataset(split_file, split, root_rgb, root_flow, classes)
+
         self.split = split
         self.split_file = split_file
         self.batch_size = batch_size
@@ -115,7 +116,7 @@ class Charades(data_utl.Dataset):
 
     def __getitem__(self, index):
         ################3RGB#########################################
-        entry_rgb = self.data[0][index]
+        entry_rgb = self.data_rgb[index]
         feat_rgb = np.load(os.path.join(self.root_rgb, entry_rgb[0] + '.npy'))
         feat_rgb = feat_rgb.reshape((feat_rgb.shape[0], 1, 1, feat_rgb.shape[-1]))
         features_rgb = feat_rgb.astype(np.float32)
@@ -140,7 +141,7 @@ class Charades(data_utl.Dataset):
     ##########################RGB##################################################################3
 
         ################3RGB#########################################
-        entry_flow = self.data[1][index]
+        entry_flow = self.data_flow[index]
         feat_flow = np.load(os.path.join(self.root_flow, entry_flow[0] + '.npy'))
         feat_flow = feat_flow.reshape((feat_flow.shape[0], 1, 1, feat_flow.shape[-1]))
         features_flow = feat_flow.astype(np.float32)
@@ -167,7 +168,7 @@ class Charades(data_utl.Dataset):
         return features_rgb, labels_rgb, hmap_rgb, action_lengths_rgb, [entry_rgb[0], entry_rgb[2], num_action_rgb], features_flow, labels_flow, hmap_flow, action_lengths_flow, [entry_flow[0], entry_flow[2], num_action_flow]
 
     def __len__(self):
-        return len(self.data)
+        return len(self.data_rgb)
 
 
 class collate_fn_unisize():
@@ -177,9 +178,12 @@ class collate_fn_unisize():
 
     def charades_collate_fn_unisize(self, batch):
         max_len = int(self.num_clips)
-        max_len1 = int(self.num_clips)
+        # max_len1 = int(self.num_clips)
         new_batch = []
+
         for b in batch:
+
+
             f = np.zeros((max_len, b[0].shape[1], b[0].shape[2], b[0].shape[3]), np.float32)
             m = np.zeros((max_len), np.float32)
             l = np.zeros((max_len, b[1].shape[1]), np.float32)

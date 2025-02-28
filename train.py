@@ -83,9 +83,9 @@ def load_data(train_split, val_split, rgb_root, flow_root):
         dataset = Dataset(train_split, 'training', rgb_root, flow_root, batch_size, classes, int(args.num_clips), int(args.skip))
 
 
-
         dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=8,
                                                  pin_memory=True, collate_fn=collate_fn)
+
         dataloader.root = rgb_root
     else:
 
@@ -147,23 +147,31 @@ def eval_model(model, dataloader, baseline=False):
 
 def run_network(model, data_rgb, data_flow, gpu, epoch=0, baseline=False):
     #
-    inputs, mask, labels, other, hm = data
+    inputs_rgb, mask_rgb, labels_rgb, other_rgb, hm_rgb = data_rgb
     # wrap them in Variable
-    inputs = Variable(inputs.cuda(gpu))
-    mask = Variable(mask.cuda(gpu))
-    labels = Variable(labels.cuda(gpu))
-    hm = Variable(hm.cuda(gpu))
+    inputs_rgb = Variable(inputs_rgb.cuda(gpu))
+    mask = Variable(mask_rgb.cuda(gpu))
+    labels_rgb = Variable(labels_rgb.cuda(gpu))
+    hm = Variable(hm_rgb.cuda(gpu))
 
-    inputs = inputs.squeeze(3).squeeze(3)
+    inputs_rgb = inputs_rgb.squeeze(3).squeeze(3)
 
-    outputs_final,out_hm = model(inputs)
+    inputs_flow, mask_flow, labels_flow, other_flow, hm_flow = data_flow
+    # wrap them in Variable
+    inputs_flow = Variable(inputs_flow.cuda(gpu))
+
+
+    inputs_flow = inputs_flow.squeeze(3).squeeze(3)
+
+
+    outputs_final,out_hm = model(inputs_rgb, inputs_flow)
 
     # Logit
     probs_f = F.sigmoid(outputs_final) * mask.unsqueeze(2)
 
     # Loss
     loss_h = focal_loss(out_hm, hm)
-    loss_f = F.binary_cross_entropy_with_logits(outputs_final, labels, size_average=False)
+    loss_f = F.binary_cross_entropy_with_logits(outputs_final, labels_rgb, size_average=False)
     loss_f = torch.sum(loss_f) / torch.sum(mask)
     loss = args.alpha_l * loss_f + args.beta_l * loss_h
 
@@ -179,7 +187,9 @@ def train_step(model, gpu, optimizer, dataloader, epoch):
     error = 0.0
     num_iter = 0.
     apm = APMeter()
+
     for data in dataloader:
+
         data_rgb = [data[0], data[1], data[2], data[3], data[4]]
         data_flow = [data[5], data[6], data[7], data[8], data[9]]
 
@@ -188,7 +198,7 @@ def train_step(model, gpu, optimizer, dataloader, epoch):
         num_iter += 1
 
         outputs, loss, probs, err = run_network(model, data_rgb, data_flow, gpu, epoch)
-        apm.add(probs.data.cpu().numpy()[0], data[2].numpy()[0])
+        apm.add(probs.data.cpu().numpy()[0], data_rgb[2].numpy()[0])
         error += err.data
         tot_loss += loss.data
 
@@ -219,19 +229,23 @@ def val_step(model, gpu, dataloader, epoch):
     # Iterate over data.
     for data in dataloader:
         num_iter += 1
-        other = data[3]
 
-        outputs, loss, probs, err = run_network(model, data, gpu, epoch)
-        if sum(data[1].numpy()[0])>25:
-            p1,l1=sampled_25(probs.data.cpu().numpy()[0],data[2].numpy()[0],data[1].numpy()[0])
+
+        data_rgb = [data[0], data[1], data[2], data[3], data[4]]
+        data_flow = [data[5], data[6], data[7], data[8], data[9]]
+        other = data_rgb[3]
+
+        outputs, loss, probs, err = run_network(model,  data_rgb, data_flow, gpu, epoch)
+        if sum(data_rgb[1].numpy()[0])>25:
+            p1,l1=sampled_25(probs.data.cpu().numpy()[0],data_rgb[2].numpy()[0],data_rgb[1].numpy()[0])
             sampled_apm.add(p1,l1)
 
-        apm.add(probs.data.cpu().numpy()[0], data[2].numpy()[0])
+        apm.add(probs.data.cpu().numpy()[0], data_rgb[2].numpy()[0])
 
         error += err.data
         tot_loss += loss.data
 
-        probs_1 = mask_probs(probs.data.cpu().numpy()[0],data[1].numpy()[0]).squeeze()
+        probs_1 = mask_probs(probs.data.cpu().numpy()[0],data_rgb[1].numpy()[0]).squeeze()
 
         full_probs[other[0][0]] = probs_1.T
 
