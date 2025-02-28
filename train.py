@@ -75,12 +75,12 @@ if args.dataset == 'charades':
     classes = 15
 
 
-def load_data(train_split, val_split, rgb_root, flow_root):
+def load_data(train_split, val_split, rgb_root):
     # Load Data
     print('load data', rgb_root)
 
     if len(train_split) > 0:
-        dataset = Dataset(train_split, 'training', rgb_root, flow_root, batch_size, classes, int(args.num_clips), int(args.skip))
+        dataset = Dataset(train_split, 'training', rgb_root, batch_size, classes, int(args.num_clips), int(args.skip))
 
 
 
@@ -92,7 +92,7 @@ def load_data(train_split, val_split, rgb_root, flow_root):
         dataset = None
         dataloader = None
 
-    val_dataset = Dataset(val_split, 'testing', rgb_root, flow_root, batch_size, classes, int(args.num_clips), int(args.skip))
+    val_dataset = Dataset(val_split, 'testing', rgb_root, batch_size, classes, int(args.num_clips), int(args.skip))
     val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=True, num_workers=2,
                                                  pin_memory=True, collate_fn=collate_fn)
     val_dataloader.root = rgb_root
@@ -145,7 +145,7 @@ def eval_model(model, dataloader, baseline=False):
     return results
 
 
-def run_network(model, data_rgb, data_flow, gpu, epoch=0, baseline=False):
+def run_network(model, data, gpu, epoch=0, baseline=False):
     #
     inputs, mask, labels, other, hm = data
     # wrap them in Variable
@@ -180,14 +180,12 @@ def train_step(model, gpu, optimizer, dataloader, epoch):
     num_iter = 0.
     apm = APMeter()
     for data in dataloader:
-        data_rgb = [data[0], data[1], data[2], data[3], data[4]]
-        data_flow = [data[5], data[6], data[7], data[8], data[9]]
 
 
         optimizer.zero_grad()
         num_iter += 1
 
-        outputs, loss, probs, err = run_network(model, data_rgb, data_flow, gpu, epoch)
+        outputs, loss, probs, err = run_network(model, data, gpu, epoch)
         apm.add(probs.data.cpu().numpy()[0], data[2].numpy()[0])
         error += err.data
         tot_loss += loss.data
@@ -255,7 +253,7 @@ if __name__ == '__main__':
         dataloaders, datasets = load_data(train_split, test_split, flow_root)
     elif args.mode == 'rgb':
         print('RGB mode', rgb_root)
-        dataloaders, datasets = load_data(train_split, test_split, rgb_root, flow_root)
+        dataloaders, datasets = load_data(train_split, test_split, rgb_root)
 
 
     wandb.login(key=config.WANDB_KEY)
@@ -273,13 +271,13 @@ if __name__ == '__main__':
             # C
             num_classes = classes
             # D = 256, gamma = 1.5
-            inter_channels=[256,384,576,864]
+            inter_channels=[256,384,576,864]#256,384,576,864
             # B
             num_block = 3
             # H
-            head = 8
+            head = 4
             # theta
-            mlp_ratio = 8
+            mlp_ratio = 11
             # D_0
             in_feat_dim = 768
             # D_v
