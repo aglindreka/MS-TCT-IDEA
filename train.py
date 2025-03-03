@@ -291,9 +291,9 @@ if __name__ == '__main__':
             # B
             num_block = 3
             # H
-            head = 8
+            head = 4
             # theta
-            mlp_ratio = 8
+            mlp_ratio = 14
             # D_0
             in_feat_dim = 768
             # D_v

@@ -10,9 +10,9 @@ python train.py \
 -skip 0 \
 -lr 0.00001 \
 -comp_info False \
--epoch 80 \
+-epoch 60 \
 -unisize True \
 -alpha_l 10 \
 -beta_l 1 \
 -batch_size 1 \
--num_layer 10
+-num_layer 8

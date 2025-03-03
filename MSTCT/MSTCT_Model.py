@@ -52,7 +52,7 @@ class MSTCT(nn.Module):
 
         self.TemporalEncoder1=TemporalEncoder(in_feat_dim=in_feat_dim, embed_dims=inter_channels,
                  num_head=head, mlp_ratio=mlp_ratio, norm_layer=nn.LayerNorm,num_block=num_block)
-        self.TemporalEncoder2 = TemporalEncoder(in_feat_dim=1568, embed_dims=inter_channels,
+        self.TemporalEncoder2 = TemporalEncoder(in_feat_dim=768, embed_dims=inter_channels,
                                                num_head=head, mlp_ratio=mlp_ratio, norm_layer=nn.LayerNorm,
                                                num_block=num_block)
 
@@ -76,7 +76,7 @@ class MSTCT(nn.Module):
         inputs_flow = inputs_flow.permute(0, 2, 1)
 
         inputs_rgb = self.TemporalEncoder1(inputs_rgb)
-        inputs_flow = self.TemporalEncoder1(inputs_flow)
+        inputs_flow = self.TemporalEncoder2(inputs_flow)
         # Temporal Encoder Module
         # x_rgb = self.TemporalEncoder1(inputs_rgb)
         # x_flow = self.TemporalEncoder2(inputs_flow)
