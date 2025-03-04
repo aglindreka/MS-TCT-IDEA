@@ -109,13 +109,14 @@ def load_data(train_split, val_split, rgb_root, flow_root, depth_root):
 def run(models, criterion, num_epochs=50):
     since = time.time()
     Best_val_map = 0.
+    i = 0
     for epoch in range(num_epochs):
         since1 = time.time()
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
         for model, gpu, dataloader, optimizer, sched, model_file in models:
-            train_map_macro, train_loss, last_lr, train_map_micro = train_step(model, gpu, optimizer, dataloader['train'],  epoch)
-            prob_val, val_loss, val_map_macro, val_map_micro = val_step(model, gpu, dataloader['val'], epoch)
+            train_map_macro, train_loss, last_lr, train_map_micro, macro_avg_train, micro_avg_train = train_step(model, gpu, optimizer, dataloader['train'],  epoch)
+            prob_val, val_loss, val_map_macro, val_map_micro, macro_avg_eval, micro_avg_eval = val_step(model, gpu, dataloader['val'], epoch)
             sched.step(val_loss)
             # Time
             print("epoch", epoch, "Total_Time",time.time()-since, "Epoch_time",time.time()-since1)
@@ -129,11 +130,13 @@ def run(models, criterion, num_epochs=50):
                 'last_lr': last_lr
             })
 
-            # if Best_val_map < val_map_macro:
-            # Best_val_map = val_map_macro
+            if epoch == (num_epochs-1):
+                print('Macro avaraging in train', np.array(macro_avg_train).mean(), 'Micro avaraging in train', np.array(macro_avg_train).mean())
+                print('Macro avaraging in eval', np.array(macro_avg_eval).mean(), 'Micro avaraging in eval', np.array(micro_avg_eval).mean())
+
             print("epoch",epoch,"Best Val Map Update",val_map_macro)
-            pickle.dump(prob_val, open('./save_logit_10_4head_prova3_mlp/' + str(epoch) + '.pkl', 'wb'), pickle.HIGHEST_PROTOCOL)
-            print("logit_saved at:","./save_logit_10_4head_prova3_mlp/" + str(epoch) + ".pkl")
+            pickle.dump(prob_val, open('./save_logit_10_4head_prova5_mlp/' + str(epoch) + '.pkl', 'wb'), pickle.HIGHEST_PROTOCOL)
+            print("logit_saved at:","./save_logit_10_4head_prova5_mlp/" + str(epoch) + ".pkl")
 
 
 def eval_model(model, dataloader, baseline=False):
@@ -201,7 +204,8 @@ def train_step(model, gpu, optimizer, dataloader, epoch):
     error = 0.0
     num_iter = 0.
     apm = APMeter()
-
+    macro_avg = []
+    micro_avg = []
     for data in dataloader:
 
         data_rgb = [data[0], data[1], data[2], data[3], data[4]]
@@ -223,14 +227,17 @@ def train_step(model, gpu, optimizer, dataloader, epoch):
 
     train_map_macro = 100 * apm.value().mean()
     train_map_micro = 100 * apm.value_micro()
+    macro_avg.append(train_map_macro)
+    micro_avg.append(train_map_micro)
     print('epoch',epoch,'train-map_macro:', train_map_macro)
     print('epoch', epoch, 'train-map_micro:', train_map_micro)
+
     apm.reset()
 
     epoch_loss = tot_loss / num_iter
     last_lr = optimizer.param_groups[0]['lr']
 
-    return train_map_macro, epoch_loss, last_lr, train_map_micro
+    return train_map_macro, epoch_loss, last_lr, train_map_micro, macro_avg, micro_avg
 
 
 def val_step(model, gpu, dataloader, epoch):
@@ -241,7 +248,8 @@ def val_step(model, gpu, dataloader, epoch):
     error = 0.0
     num_iter = 0.
     full_probs = {}
-
+    macro_avg = []
+    micro_avg = []
     # Iterate over data.
     for data in dataloader:
         num_iter += 1
@@ -270,14 +278,15 @@ def val_step(model, gpu, dataloader, epoch):
     val_map_macro = torch.sum(100 * apm.value()) / torch.nonzero(100 * apm.value()).size()[0]
     val_map_micro = torch.sum(100 * apm.value_micro()) / torch.nonzero(100 * apm.value_micro()).size()[0]
     sample_val_map = torch.sum(100 * sampled_apm.value()) / torch.nonzero(100 * sampled_apm.value()).size()[0]
-
+    macro_avg.append(val_map_macro)
+    micro_avg.append(val_map_micro)
     print('epoch',epoch,'Full-val-map_macro:', val_map_macro)
     print('epoch', epoch, 'Full-val-map_micro:', val_map_micro)
     print('epoch',epoch,'sampled-val-map:', sample_val_map)
     print(100 * sampled_apm.value())
     apm.reset()
     sampled_apm.reset()
-    return full_probs, epoch_loss, val_map_macro, val_map_micro
+    return full_probs, epoch_loss, val_map_macro, val_map_micro, macro_avg, micro_avg
 
 
 if __name__ == '__main__':
@@ -292,8 +301,8 @@ if __name__ == '__main__':
     wandb.login(key=config.WANDB_KEY)
     config_dict = dict()
 
-    if not os.path.exists('./save_logit_10_4head_prova3_mlp'):
-        os.makedirs('./save_logit_10_4head_prova3_mlp')
+    if not os.path.exists('./save_logit_10_4head_prova5_mlp'):
+        os.makedirs('./save_logit_10_4head_prova5_mlp')
 
     if args.train:
 

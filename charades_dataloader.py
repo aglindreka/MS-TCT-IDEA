@@ -172,7 +172,7 @@ class Charades(data_utl.Dataset):
         if self.split in ["training", "testing"]:
             if len(features_rgb) > num_clips and num_clips > 0:
                 if self.split == "testing":
-                    random_index = 0
+                    random_index = random.choice(range(0, len(features_rgb) - num_clips))
                 else:
                     random_index = random.choice(range(0, len(features_rgb) - num_clips))
                 features_rgb = features_rgb[random_index: random_index + num_clips: 1]
@@ -199,7 +199,7 @@ class Charades(data_utl.Dataset):
         if self.split in ["training", "testing"]:
             if len(features_flow) > num_clips and num_clips > 0:
                 if self.split == "testing":
-                    random_index = 0
+                    random_index = random.choice(range(0, len(features_flow) - num_clips))
                 else:
                     random_index = random.choice(range(0, len(features_flow) - num_clips))
                 features_flow = features_flow[random_index: random_index + num_clips: 1]
@@ -223,7 +223,7 @@ class Charades(data_utl.Dataset):
         if self.split in ["training", "testing"]:
             if len(features_depth) > num_clips and num_clips > 0:
                 if self.split == "testing":
-                    random_index = 0
+                    random_index = random.choice(range(0, len(features_depth) - num_clips))
                 else:
                     random_index = random.choice(range(0, len(features_depth) - num_clips))
                 features_depth = features_depth[random_index: random_index + num_clips: 1]
