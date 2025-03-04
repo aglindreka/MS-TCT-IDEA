@@ -5,7 +5,7 @@ import numpy as np
 from utils import *
 
 
-def make_gt(gt_file, logits, num_classes=157):
+def make_gt(gt_file, logits, num_classes=15):
     gt_new = {}
     vid_length = {}
     fps_seg = {}
@@ -48,8 +48,8 @@ if __name__ == '__main__':
 
     pkl_path = args.pkl_path
 
-    gt_file = './data/charades.json'
-    classes = 157
+    gt_file = './data/mpiigi_ms_tct_15.json'
+    classes = 15
 
     pkl = open(pkl_path, 'rb')
 
@@ -66,6 +66,7 @@ if __name__ == '__main__':
     gt_labels=[]
 
     for vid in gt_new.keys():
+
         idx=idx+1
         logit = np.transpose(logits[vid], (1, 0))
 
@@ -81,29 +82,29 @@ if __name__ == '__main__':
     print ("25 sampled Frame-based map", sample_val_map)
     print ("APs for the classes",100 * apm.value())
 
-    # action-conditional metrics for different t
-    # t=0
-    prec0, re0, ns0, map0 = conditional_metric(pred_probs, gt_labels, t=0, avg=True)
-    fs0 = get_f1(prec0, re0)  # action conditional f1-score
-    print('Precision(c_i|c_j,0)=', prec0)
-    print('Recall(c_i|c_j,0)=', re0)
-    print('F1Score(c_i|c_j,0)=', fs0)
-    print('mAP(c_i|c_j,0)=', map0)
-
-    # t=20
-    prec20, re20, ns20, map20 = conditional_metric(pred_probs, gt_labels, t=20, avg=True)
-    fs20 = get_f1(prec20, re20)  # action conditional f1-score
-    print('Precision(c_i|c_j,20)=', prec20)
-    print('Recall(c_i|c_j,20)=', re20)
-    print('F1Score(c_i|c_j,20)=', fs20)
-    print('mAP(c_i|c_j,20)=', map20)
-
-    # t=40
-    prec40, re40, ns40, map40 = conditional_metric(pred_probs, gt_labels, t=40, avg=True)
-    fs40 = get_f1(prec40, re40)  # action conditional f1-score
-    print('Precision(c_i|c_j,40)=', prec40)
-    print('Recall(c_i|c_j,40)=', re40)
-    print('F1Score(c_i|c_j,40)=', fs40)
-    print('mAP(c_i|c_j,40)=', map40)
+    # # action-conditional metrics for different t
+    # # t=0
+    # prec0, re0, ns0, map0 = conditional_metric(pred_probs, gt_labels, t=0, avg=True)
+    # fs0 = get_f1(prec0, re0)  # action conditional f1-score
+    # print('Precision(c_i|c_j,0)=', prec0)
+    # print('Recall(c_i|c_j,0)=', re0)
+    # print('F1Score(c_i|c_j,0)=', fs0)
+    # print('mAP(c_i|c_j,0)=', map0)
+    #
+    # # t=20
+    # prec20, re20, ns20, map20 = conditional_metric(pred_probs, gt_labels, t=20, avg=True)
+    # fs20 = get_f1(prec20, re20)  # action conditional f1-score
+    # print('Precision(c_i|c_j,20)=', prec20)
+    # print('Recall(c_i|c_j,20)=', re20)
+    # print('F1Score(c_i|c_j,20)=', fs20)
+    # print('mAP(c_i|c_j,20)=', map20)
+    #
+    # # t=40
+    # prec40, re40, ns40, map40 = conditional_metric(pred_probs, gt_labels, t=40, avg=True)
+    # fs40 = get_f1(prec40, re40)  # action conditional f1-score
+    # print('Precision(c_i|c_j,40)=', prec40)
+    # print('Recall(c_i|c_j,40)=', re40)
+    # print('F1Score(c_i|c_j,40)=', fs40)
+    # print('mAP(c_i|c_j,40)=', map40)
 
 

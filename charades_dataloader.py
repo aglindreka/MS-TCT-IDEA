@@ -94,7 +94,7 @@ class Charades(data_utl.Dataset):
         if self.split in ["training", "testing"]:
             if len(features) > num_clips and num_clips > 0:
                 if self.split == "testing":
-                    random_index = 0
+                    random_index = random.choice(range(0, len(features) - num_clips))
                 else:
                     random_index = random.choice(range(0, len(features) - num_clips))
                 features = features[random_index: random_index + num_clips: 1]
