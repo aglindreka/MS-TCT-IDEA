@@ -22,7 +22,6 @@ class GatingMechanism(nn.Module):
         return gate
 
 
-
 class Local_Relational_Block(nn.Module):
 
     def __init__(self, in_features, hidden_features=None, out_features=None, act_layer=nn.GELU, drop=0.):
@@ -129,6 +128,7 @@ class GLRBlock(nn.Module):
         self.GatingMechanism_2 = GatingMechanism(384, 32)
         self.GatingMechanism_3 = GatingMechanism(576, 32)
         self.GatingMechanism_4 = GatingMechanism(864, 32)
+        # self.GatingMechanism_5 = GatingMechanism(864, 32)
 
 
 
@@ -149,9 +149,10 @@ class GLRBlock(nn.Module):
 
     def forward(self, x):
 
+
+
         if self.Global_Relational_Block(self.norm1(x)).shape[2] == 256:
                 beta = self.GatingMechanism_1(self.Global_Relational_Block(self.norm1(x)), self.Local_Relational_Block(self.norm2(x)))
-
 
         elif self.Global_Relational_Block(self.norm1(x)).shape[2] == 384:
                 beta = self.GatingMechanism_2(self.Global_Relational_Block(self.norm1(x)), self.Local_Relational_Block(self.norm2(x)))
@@ -162,11 +163,10 @@ class GLRBlock(nn.Module):
         elif self.Global_Relational_Block(self.norm1(x)).shape[2] == 864:
                 beta = self.GatingMechanism_4(self.Global_Relational_Block(self.norm1(x)), self.Local_Relational_Block(self.norm2(x)))
 
-        # x = x + (beta * self.Global_Relational_Block(self.norm1(x))) + ((1-beta) * self.Local_Relational_Block(self.norm2(x)))
-        x = x + beta*self.Global_Relational_Block(self.norm1(x))
-        x = x + (1-beta)*self.Local_Relational_Block(self.norm2(x))
-        return x
 
+        x = x + beta * self.Global_Relational_Block(self.norm1(x))
+        x = x + (1-beta) * self.Local_Relational_Block(self.norm2(x))
+        return x
 
 class Temporal_Merging_Block(nn.Module):
     """
@@ -294,6 +294,5 @@ class TemporalEncoder(nn.Module):
         x = self.norm4(x)
         x = x.permute(0, 2, 1).contiguous()
         outs.append(x)
-
 
         return outs
