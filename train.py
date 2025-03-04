@@ -12,6 +12,8 @@ import random
 from utils import *
 from apmeter import APMeter
 import os
+import wandb
+import config
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-mode', type=str, help='rgb or flow (or joint for eval)')
@@ -68,33 +70,38 @@ if args.dataset == 'charades':
     test_split = train_split
     rgb_root =  '/data/stars/user/areka/files_features_swin/mpiigi'
     # rgb_root = '/data/stars/user/areka/files_features_swin/mm52/train'
-    flow_root = '/flow_feat_path/' # optional
+    flow_root = '/data/stars/user/areka/Features_modalities_mpiigi/Optical_Flow' # optional
     # rgb_of=[rgb_root,flow_root]
     classes = 15
 
 
-def load_data(train_split, val_split, root):
+def load_data(train_split, val_split, rgb_root):
     # Load Data
-    print('load data', root)
+    print('load data', rgb_root)
 
     if len(train_split) > 0:
-        dataset = Dataset(train_split, 'training', root, batch_size, classes, int(args.num_clips), int(args.skip))
+        dataset = Dataset(train_split, 'training', rgb_root, batch_size, classes, int(args.num_clips), int(args.skip))
+
+
+
         dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=8,
                                                  pin_memory=True, collate_fn=collate_fn)
-        dataloader.root = root
+        dataloader.root = rgb_root
     else:
 
         dataset = None
         dataloader = None
 
-    val_dataset = Dataset(val_split, 'testing', root, batch_size, classes, int(args.num_clips), int(args.skip))
+    val_dataset = Dataset(val_split, 'testing', rgb_root, batch_size, classes, int(args.num_clips), int(args.skip))
     val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=True, num_workers=2,
                                                  pin_memory=True, collate_fn=collate_fn)
-    val_dataloader.root = root
+    val_dataloader.root = rgb_root
     dataloaders = {'train': dataloader, 'val': val_dataloader}
     datasets = {'train': dataset, 'val': val_dataset}
-    
+
     return dataloaders, datasets
+
+
 
 
 def run(models, criterion, num_epochs=50):
@@ -105,14 +112,23 @@ def run(models, criterion, num_epochs=50):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
         for model, gpu, dataloader, optimizer, sched, model_file in models:
-            _, _ = train_step(model, gpu, optimizer, dataloader['train'], epoch)
-            prob_val, val_loss, val_map = val_step(model, gpu, dataloader['val'], epoch)
+            train_map_macro, train_loss, last_lr, train_map_micro = train_step(model, gpu, optimizer, dataloader['train'],  epoch)
+            prob_val, val_loss, val_map_macro, val_map_micro = val_step(model, gpu, dataloader['val'], epoch)
             sched.step(val_loss)
             # Time
             print("epoch", epoch, "Total_Time",time.time()-since, "Epoch_time",time.time()-since1)
-            
-            if Best_val_map < val_map:
-                Best_val_map = val_map
+            wandb.log({
+                'train_map_macro': train_map_macro.numpy(),
+                'train_map_micro': train_map_micro.numpy(),
+                'train_loss': train_loss,
+                'val_map_macro': val_map_macro.numpy(),
+                'val_map_micro': val_map_micro.numpy(),
+                'val_loss': val_loss,
+                'last_lr': last_lr
+            })
+
+            if Best_val_map < val_map_macro:
+                Best_val_map = val_map_macro
                 print("epoch",epoch,"Best Val Map Update",Best_val_map)
                 pickle.dump(prob_val, open('./save_logit/' + str(epoch) + '.pkl', 'wb'), pickle.HIGHEST_PROTOCOL)
                 print("logit_saved at:","./save_logit/" + str(epoch) + ".pkl")
@@ -130,9 +146,9 @@ def eval_model(model, dataloader, baseline=False):
 
 
 def run_network(model, data, gpu, epoch=0, baseline=False):
-    # 
+    #
     inputs, mask, labels, other, hm = data
-    # wrap them in Variable 
+    # wrap them in Variable
     inputs = Variable(inputs.cuda(gpu))
     mask = Variable(mask.cuda(gpu))
     labels = Variable(labels.cuda(gpu))
@@ -164,6 +180,8 @@ def train_step(model, gpu, optimizer, dataloader, epoch):
     num_iter = 0.
     apm = APMeter()
     for data in dataloader:
+
+
         optimizer.zero_grad()
         num_iter += 1
 
@@ -175,13 +193,16 @@ def train_step(model, gpu, optimizer, dataloader, epoch):
         loss.backward()
         optimizer.step()
 
-    train_map = 100 * apm.value().mean()
-    print('epoch',epoch,'train-map:', train_map)
+    train_map_macro = 100 * apm.value().mean()
+    train_map_micro = 100 * apm.value_micro()
+    print('epoch',epoch,'train-map_macro:', train_map_macro)
+    print('epoch', epoch, 'train-map_micro:', train_map_micro)
     apm.reset()
 
     epoch_loss = tot_loss / num_iter
+    last_lr = optimizer.param_groups[0]['lr']
 
-    return train_map, epoch_loss
+    return train_map_macro, epoch_loss, last_lr, train_map_micro
 
 
 def val_step(model, gpu, dataloader, epoch):
@@ -207,21 +228,23 @@ def val_step(model, gpu, dataloader, epoch):
 
         error += err.data
         tot_loss += loss.data
-        
+
         probs_1 = mask_probs(probs.data.cpu().numpy()[0],data[1].numpy()[0]).squeeze()
 
         full_probs[other[0][0]] = probs_1.T
 
     epoch_loss = tot_loss / num_iter
-    val_map = torch.sum(100 * apm.value()) / torch.nonzero(100 * apm.value()).size()[0]
+    val_map_macro = torch.sum(100 * apm.value()) / torch.nonzero(100 * apm.value()).size()[0]
+    val_map_micro = torch.sum(100 * apm.value_micro()) / torch.nonzero(100 * apm.value_micro()).size()[0]
     sample_val_map = torch.sum(100 * sampled_apm.value()) / torch.nonzero(100 * sampled_apm.value()).size()[0]
 
-    print('epoch',epoch,'Full-val-map:', val_map)
+    print('epoch',epoch,'Full-val-map_macro:', val_map_macro)
+    print('epoch', epoch, 'Full-val-map_micro:', val_map_micro)
     print('epoch',epoch,'sampled-val-map:', sample_val_map)
     print(100 * sampled_apm.value())
     apm.reset()
     sampled_apm.reset()
-    return full_probs, epoch_loss, val_map
+    return full_probs, epoch_loss, val_map_macro, val_map_micro
 
 
 if __name__ == '__main__':
@@ -231,6 +254,10 @@ if __name__ == '__main__':
     elif args.mode == 'rgb':
         print('RGB mode', rgb_root)
         dataloaders, datasets = load_data(train_split, test_split, rgb_root)
+
+
+    wandb.login(key=config.WANDB_KEY)
+    config_dict = dict()
 
     if not os.path.exists('./save_logit'):
         os.makedirs('./save_logit')
@@ -243,19 +270,19 @@ if __name__ == '__main__':
             num_clips = int(args.num_clips)
             # C
             num_classes = classes
-            # D = 256, gamma = 1.5 
+            # D = 256, gamma = 1.5
             inter_channels=[256,384,576,864]
             # B
             num_block = 3
             # H
-            head = 8
+            head = 4
             # theta
             mlp_ratio = 8
             # D_0
             in_feat_dim = 768
             # D_v
             final_embedding_dim = 512
-            
+
             rgb_model = MSTCT(inter_channels, num_block, head, mlp_ratio, in_feat_dim, final_embedding_dim, num_classes)
             print("loaded",args.load_model)
 
@@ -263,6 +290,18 @@ if __name__ == '__main__':
 
         criterion = nn.NLLLoss(reduce=False)
         lr = float(args.lr)
-        optimizer = optim.Adam(rgb_model.parameters(), lr=lr)
+        optimizer = optim.AdamW(rgb_model.parameters(), lr=lr)
         lr_sched = optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.5, patience=8, verbose=True)
+
+        config_dict['lr'] = lr
+        config_dict['num_classes'] = num_classes
+        config_dict['dataset'] = args.dataset
+        config_dict['epochs'] = args.epoch
+        # config_dict['num_summary_tokens'] = args.num_summary_tokens
+        config_dict['pretrained_model'] = args.load_model
+
+        wandb.init(
+            project=config.PROJECT_NAME,
+            config=config_dict
+        )
         run([(rgb_model, 0, dataloaders, optimizer, lr_sched, args.comp_info)], criterion, num_epochs=int(args.epoch))
