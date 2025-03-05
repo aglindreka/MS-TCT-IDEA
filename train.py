@@ -134,9 +134,11 @@ def run(models, criterion, num_epochs=50):
                 print('Macro avaraging in train', np.array(macro_avg_train).mean(), 'Micro avaraging in train', np.array(macro_avg_train).mean())
                 print('Macro avaraging in eval', np.array(macro_avg_eval).mean(), 'Micro avaraging in eval', np.array(micro_avg_eval).mean())
 
-            print("epoch",epoch,"Best Val Map Update",val_map_macro)
-            pickle.dump(prob_val, open('./save_logit_10_4head_prova5_mlp/' + str(epoch) + '.pkl', 'wb'), pickle.HIGHEST_PROTOCOL)
-            print("logit_saved at:","./save_logit_10_4head_prova5_mlp/" + str(epoch) + ".pkl")
+            if Best_val_map < val_map_macro:
+                Best_val_map = val_map_macro
+                print("epoch",epoch,"Best Val Map Update",val_map_macro)
+                pickle.dump(prob_val, open('./save_logit_00001_mlp/' + str(epoch) + '.pkl', 'wb'), pickle.HIGHEST_PROTOCOL)
+                print("logit_saved at:","./save_logit_00001_mlp/" + str(epoch) + ".pkl")
 
 
 def eval_model(model, dataloader, baseline=False):
@@ -301,8 +303,8 @@ if __name__ == '__main__':
     wandb.login(key=config.WANDB_KEY)
     config_dict = dict()
 
-    if not os.path.exists('./save_logit_10_4head_prova5_mlp'):
-        os.makedirs('./save_logit_10_4head_prova5_mlp')
+    if not os.path.exists('./save_logit_00001_mlp'):
+        os.makedirs('./save_logit_00001_mlp')
 
     if args.train:
 
