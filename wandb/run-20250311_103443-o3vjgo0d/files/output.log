@@ -1,0 +1,31 @@
+Epoch 0/299
+----------
+Traceback (most recent call last):
+  File "/data/stars/user/areka/MS-TCT/train.py", line 351, in <module>
+    run([(rgb_model, 0, dataloaders, optimizer, lr_sched, args.comp_info)], criterion, num_epochs=int(args.epoch))
+  File "/data/stars/user/areka/MS-TCT/train.py", line 118, in run
+    train_map_macro, train_loss, last_lr, train_map_micro, macro_avg_train, micro_avg_train = train_step(model, gpu, optimizer, dataloader['train'],  epoch)
+  File "/data/stars/user/areka/MS-TCT/train.py", line 211, in train_step
+    for data in dataloader:
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 530, in __next__
+    data = self._next_data()
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1224, in _next_data
+    return self._process_data(data)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1250, in _process_data
+    data.reraise()
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/_utils.py", line 457, in reraise
+    raise exception
+TypeError: Caught TypeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 287, in _worker_loop
+    data = fetcher.fetch(index)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 49, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 49, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/data/stars/user/areka/MS-TCT/charades_dataloader.py", line 188, in __getitem__
+    feat_flow = torch.mean(feat_flow, dim=1)
+TypeError: mean() received an invalid combination of arguments - got (numpy.ndarray, dim=int), but expected one of:
+ * (Tensor input, *, torch.dtype dtype)
+ * (Tensor input, tuple of ints dim, bool keepdim, *, torch.dtype dtype, Tensor out)
+ * (Tensor input, tuple of names dim, bool keepdim, *, torch.dtype dtype, Tensor out)

@@ -1,0 +1,27 @@
+Epoch 0/299
+----------
+Traceback (most recent call last):
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1011, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/queue.py", line 179, in get
+    raise Empty
+_queue.Empty
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/data/stars/user/areka/MS-TCT/train.py", line 351, in <module>
+    run([(rgb_model, 0, dataloaders, optimizer, lr_sched, args.comp_info)], criterion, num_epochs=int(args.epoch))
+  File "/data/stars/user/areka/MS-TCT/train.py", line 118, in run
+    train_map_macro, train_loss, last_lr, train_map_micro, macro_avg_train, micro_avg_train = train_step(model, gpu, optimizer, dataloader['train'],  epoch)
+  File "/data/stars/user/areka/MS-TCT/train.py", line 211, in train_step
+    for data in dataloader:
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 530, in __next__
+    data = self._next_data()
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1207, in _next_data
+    idx, data = self._get_data()
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1163, in _get_data
+    success, data = self._try_get_data()
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1024, in _try_get_data
+    raise RuntimeError('DataLoader worker (pid(s) {}) exited unexpectedly'.format(pids_str)) from e
+RuntimeError: DataLoader worker (pid(s) 45586, 45618, 45650, 45682, 45714, 45746, 45779, 45811) exited unexpectedly

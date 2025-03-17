@@ -70,8 +70,11 @@ if args.dataset == 'charades':
     test_split = train_split
     rgb_root =  '/data/stars/user/areka/files_features_swin/mpiigi'
     # rgb_root = '/data/stars/user/areka/files_features_swin/mm52/train'
-    flow_root = '/data/stars/user/areka/Features_modalities_mpiigi/Optical_Flow' # optional
-    depth_root = '/data/stars/user/areka/Features_modalities_mpiigi/Depth Feature'  # optional
+    flow_root = '/data/stars/user/areka/Features_modalities_mpiigi/SAM' # optional
+    depth_root = '/data/stars/user/areka/Features_modalities_mpiigi/pose_estimation' # optional
+    # flow_root = '/data/stars/user/areka/Features_modalities_mpiigi/Optical_Flow' # optional
+    # depth_root = '/data/stars/user/areka/Features_modalities_mpiigi/vificlip'
+    # flow_root = '/data/stars/user/areka/Features_modalities_mpiigi/Depth Feature'  # optional
     # rgb_of=[rgb_root,flow_root]
     classes = 15
 
@@ -134,11 +137,11 @@ def run(models, criterion, num_epochs=50):
                 print('Macro avaraging in train', np.array(macro_avg_train).mean(), 'Micro avaraging in train', np.array(macro_avg_train).mean())
                 print('Macro avaraging in eval', np.array(macro_avg_eval).mean(), 'Micro avaraging in eval', np.array(micro_avg_eval).mean())
 
-            if Best_val_map < val_map_macro:
-                Best_val_map = val_map_macro
-                print("epoch",epoch,"Best Val Map Update",val_map_macro)
-                pickle.dump(prob_val, open('./save_logit_00001_mlp/' + str(epoch) + '.pkl', 'wb'), pickle.HIGHEST_PROTOCOL)
-                print("logit_saved at:","./save_logit_00001_mlp/" + str(epoch) + ".pkl")
+            # if Best_val_map < val_map_macro:
+            #     Best_val_map = val_map_macro
+            print("epoch",epoch,"Best Val Map Update",val_map_macro)
+            pickle.dump(prob_val, open('./save_logit_SAM_POSE/' + str(epoch) + '.pkl', 'wb'), pickle.HIGHEST_PROTOCOL)
+            print("logit_saved at:","./save_logit_SAM_POSE/" + str(epoch) + ".pkl")
 
 
 def eval_model(model, dataloader, baseline=False):
@@ -303,8 +306,8 @@ if __name__ == '__main__':
     wandb.login(key=config.WANDB_KEY)
     config_dict = dict()
 
-    if not os.path.exists('./save_logit_00001_mlp'):
-        os.makedirs('./save_logit_00001_mlp')
+    if not os.path.exists('./save_logit_SAM_POSE'):
+        os.makedirs('./save_logit_SAM_POSE')
 
     if args.train:
 
@@ -321,7 +324,7 @@ if __name__ == '__main__':
             # H
             head = 4
             # theta
-            mlp_ratio = 10
+            mlp_ratio = 8
             # D_0
             in_feat_dim = 768
             # D_v

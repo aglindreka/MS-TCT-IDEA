@@ -79,8 +79,8 @@ if __name__ == '__main__':
     val_map = 100 * apm.value().mean()
     sample_val_map = 100 *sampled_apm.value().mean()
     print ("Test Frame-based map", val_map)
-    print ("25 sampled Frame-based map", sample_val_map)
-    print ("APs for the classes",100 * apm.value())
+    # print ("25 sampled Frame-based map", sample_val_map)
+    # print ("APs for the classes",100 * apm.value())
 
     # # action-conditional metrics for different t
     # # t=0

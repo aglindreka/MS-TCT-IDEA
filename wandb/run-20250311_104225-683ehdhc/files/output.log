@@ -1,0 +1,478 @@
+Epoch 0/299
+----------
+/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/functional.py:1944: UserWarning: nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.
+  warnings.warn("nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.")
+/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/_reduction.py:42: UserWarning: size_average and reduce args will be deprecated, please use reduction='sum' instead.
+  warnings.warn(warning.format(ret))
+/data/stars/user/areka/MS-TCT/apmeter.py:118: UserWarning: torch.range is deprecated and will be removed in a future release because its behavior is inconsistent with Python's range builtin. Instead, use torch.arange, which produces values in [start, end).
+  rg = torch.range(1, self.scores.size(0)).float()
+/data/stars/user/areka/MS-TCT/apmeter.py:145: UserWarning: indexing with dtype torch.uint8 is now deprecated, please use a dtype torch.bool instead. (Triggered internally at  /opt/conda/conda-bld/pytorch_1646755888698/work/aten/src/ATen/native/IndexingUtils.h:28.)
+  ap[k] = precision[truth.byte()].sum() / max(truth.sum(), 1)
+epoch 0 train-map_macro: tensor(7.5438)
+epoch 0 train-map_micro: tensor(26.1252)
+epoch 0 Full-val-map_macro: tensor(18.8707)
+epoch 0 Full-val-map_micro: tensor(42.0737)
+epoch 0 sampled-val-map: tensor(21.9938)
+tensor([68.4650,  3.7797, 52.3994,  0.0000,  6.9608,  1.5946,  0.0000,  0.0000,
+        31.5966,  0.0000,  5.0010,  6.1535,  0.0000,  0.0000,  0.0000])
+epoch 0 Total_Time 28.40733289718628 Epoch_time 28.407328367233276
+epoch 0 Best Val Map Update tensor(18.8707)
+logit_saved at: ./save_logit_VLM_DEPTH/0.pkl
+Epoch 1/299
+----------
+epoch 1 train-map_macro: tensor(11.1089)
+epoch 1 train-map_micro: tensor(42.9482)
+epoch 1 Full-val-map_macro: tensor(27.9858)
+epoch 1 Full-val-map_micro: tensor(42.7472)
+epoch 1 sampled-val-map: tensor(29.5428)
+tensor([91.2376, 30.9340, 57.2973,  7.1429, 12.7297,  4.5141,  9.2649,  0.0000,
+        36.1214,  3.6098,  0.0000, 50.7899,  0.0000,  0.0000, 21.3294])
+epoch 1 Total_Time 53.006980419158936 Epoch_time 24.590485095977783
+epoch 1 Best Val Map Update tensor(27.9858)
+logit_saved at: ./save_logit_VLM_DEPTH/1.pkl
+Epoch 2/299
+----------
+epoch 2 train-map_macro: tensor(12.5553)
+epoch 2 train-map_micro: tensor(36.8725)
+epoch 2 Full-val-map_macro: tensor(24.5974)
+epoch 2 Full-val-map_micro: tensor(38.5640)
+epoch 2 sampled-val-map: tensor(29.0047)
+tensor([31.2026,  0.0000, 54.1600,  0.0000, 56.3773,  0.0000,  9.6561,  0.0000,
+        28.5339, 10.1081,  0.0000, 40.3671,  1.6321,  0.0000,  0.0000])
+epoch 2 Total_Time 79.15058517456055 Epoch_time 26.136355876922607
+Epoch 3/299
+----------
+epoch 3 train-map_macro: tensor(9.0998)
+epoch 3 train-map_micro: tensor(45.0732)
+epoch 3 Full-val-map_macro: tensor(25.1384)
+epoch 3 Full-val-map_micro: tensor(38.3240)
+epoch 3 sampled-val-map: tensor(25.6502)
+tensor([39.7043,  7.8551, 47.8023,  0.0000,  7.1448,  9.7028,  4.6385,  0.0000,
+        40.6691, 72.1914,  0.0000, 22.6640,  0.0000,  4.1301,  0.0000])
+epoch 3 Total_Time 103.71863126754761 Epoch_time 24.565441131591797
+Epoch 4/299
+----------
+epoch 4 train-map_macro: tensor(14.4667)
+epoch 4 train-map_micro: tensor(49.4167)
+epoch 4 Full-val-map_macro: tensor(28.5218)
+epoch 4 Full-val-map_micro: tensor(47.3627)
+epoch 4 sampled-val-map: tensor(28.5358)
+tensor([85.5937,  5.5516, 78.7099,  0.8002,  0.0000,  3.5885, 34.2318,  0.0000,
+        38.1811, 46.5760,  2.1525, 15.2828,  3.2258,  0.0000,  0.0000])
+epoch 4 Total_Time 129.66461610794067 Epoch_time 25.940215826034546
+epoch 4 Best Val Map Update tensor(28.5218)
+logit_saved at: ./save_logit_VLM_DEPTH/4.pkl
+Epoch 5/299
+----------
+epoch 5 train-map_macro: tensor(12.6926)
+epoch 5 train-map_micro: tensor(51.1746)
+epoch 5 Full-val-map_macro: tensor(24.7280)
+epoch 5 Full-val-map_micro: tensor(53.4493)
+epoch 5 sampled-val-map: tensor(25.3352)
+tensor([72.8902,  0.4098, 69.3687,  0.0000,  0.0000,  0.0000,  2.5304,  0.0000,
+         6.1285, 53.5846,  0.0000, 19.9707,  2.3769,  0.0000,  0.7571])
+epoch 5 Total_Time 155.9988408088684 Epoch_time 26.329349994659424
+Epoch 6/299
+----------
+epoch 6 train-map_macro: tensor(13.7513)
+epoch 6 train-map_micro: tensor(50.8777)
+epoch 6 Full-val-map_macro: tensor(43.1421)
+epoch 6 Full-val-map_micro: tensor(50.0081)
+epoch 6 sampled-val-map: tensor(43.2168)
+tensor([79.0825,  0.0000, 52.0898,  2.5278, 93.1094, 22.3744,  2.5337,  0.0000,
+        58.2396, 95.7910,  0.0000, 23.6695,  2.7501,  0.0000,  0.0000])
+epoch 6 Total_Time 182.7374656200409 Epoch_time 26.736517667770386
+epoch 6 Best Val Map Update tensor(43.1421)
+logit_saved at: ./save_logit_VLM_DEPTH/6.pkl
+Epoch 7/299
+----------
+epoch 7 train-map_macro: tensor(20.5088)
+epoch 7 train-map_micro: tensor(55.8081)
+epoch 7 Full-val-map_macro: tensor(18.1845)
+epoch 7 Full-val-map_micro: tensor(47.4662)
+epoch 7 sampled-val-map: tensor(19.0964)
+tensor([89.7217,  1.7564, 62.4149,  5.4533, 11.3531,  5.0225, 10.6634,  5.5892,
+        18.4503, 25.3388,  0.0000,  8.4110,  1.5807,  0.0000,  2.4978])
+epoch 7 Total_Time 207.46133756637573 Epoch_time 24.718973636627197
+Epoch 8/299
+----------
+epoch 8 train-map_macro: tensor(21.7931)
+epoch 8 train-map_micro: tensor(58.0481)
+epoch 8 Full-val-map_macro: tensor(34.6743)
+epoch 8 Full-val-map_micro: tensor(50.1035)
+epoch 8 sampled-val-map: tensor(38.6869)
+tensor([87.0062,  0.0000, 71.3899,  0.0000,  0.0000,  6.7310,  7.3510,  0.0000,
+        71.6404, 41.0943,  0.0000, 23.0487,  0.0000,  0.0000,  1.2334])
+epoch 8 Total_Time 233.04132866859436 Epoch_time 25.572410345077515
+Epoch 9/299
+----------
+epoch 9 train-map_macro: tensor(16.4884)
+epoch 9 train-map_micro: tensor(49.8556)
+epoch 9 Full-val-map_macro: tensor(25.4859)
+epoch 9 Full-val-map_micro: tensor(51.5801)
+epoch 9 sampled-val-map: tensor(25.7869)
+tensor([48.6281,  9.1898, 71.0014,  1.3755,  0.0000, 20.6957,  0.0000,  0.0000,
+        57.3234,  2.7973,  1.1768, 44.5729,  1.1081,  0.0000,  0.0000])
+Epoch 00010: reducing learning rate of group 0 to 5.0000e-05.
+epoch 9 Total_Time 257.59003710746765 Epoch_time 24.547266960144043
+Epoch 10/299
+----------
+epoch 10 train-map_macro: tensor(18.6281)
+epoch 10 train-map_micro: tensor(65.8273)
+epoch 10 Full-val-map_macro: tensor(16.7332)
+epoch 10 Full-val-map_micro: tensor(57.5045)
+epoch 10 sampled-val-map: tensor(18.7825)
+tensor([38.2675,  0.0000, 81.7320,  1.7564,  0.0000,  3.8687,  4.9826,  0.0000,
+        16.3212,  1.1968,  5.0691, 33.7928,  0.0000,  0.0000,  0.8377])
+epoch 10 Total_Time 282.09439516067505 Epoch_time 24.503137588500977
+Epoch 11/299
+----------
+epoch 11 train-map_macro: tensor(29.7341)
+epoch 11 train-map_micro: tensor(63.6382)
+epoch 11 Full-val-map_macro: tensor(43.7291)
+epoch 11 Full-val-map_micro: tensor(51.3123)
+epoch 11 sampled-val-map: tensor(51.1703)
+tensor([91.3498,  0.0000, 62.8976,  0.0000,  0.0000,  4.6028, 47.6869,  0.0000,
+        69.8456,  0.0000,  0.0000, 30.6390,  0.0000,  0.0000,  0.0000])
+epoch 11 Total_Time 306.64310336112976 Epoch_time 24.547083616256714
+epoch 11 Best Val Map Update tensor(43.7291)
+logit_saved at: ./save_logit_VLM_DEPTH/11.pkl
+Epoch 12/299
+----------
+epoch 12 train-map_macro: tensor(19.0677)
+epoch 12 train-map_micro: tensor(57.0644)
+epoch 12 Full-val-map_macro: tensor(24.5140)
+epoch 12 Full-val-map_micro: tensor(58.0981)
+epoch 12 sampled-val-map: tensor(24.2995)
+tensor([60.1855,  7.6862, 79.6893, 10.1777,  0.0000,  0.0000,  6.0254,  0.0000,
+        26.7449,  2.2186,  0.0000, 48.9347,  0.2817,  1.0509,  0.0000])
+epoch 12 Total_Time 331.2691056728363 Epoch_time 24.61945939064026
+Epoch 13/299
+----------
+epoch 13 train-map_macro: tensor(20.3924)
+epoch 13 train-map_micro: tensor(69.2520)
+epoch 13 Full-val-map_macro: tensor(39.3025)
+epoch 13 Full-val-map_micro: tensor(52.2189)
+epoch 13 sampled-val-map: tensor(39.6541)
+tensor([70.7686,  0.0000, 62.4862,  0.0000, 83.2226,  0.0000,  4.8974,  0.0000,
+        65.1470,  6.1303,  0.0000, 21.0955,  3.4849,  0.0000,  0.0000])
+epoch 13 Total_Time 355.8748686313629 Epoch_time 24.604400396347046
+Epoch 14/299
+----------
+epoch 14 train-map_macro: tensor(26.2035)
+epoch 14 train-map_micro: tensor(68.0425)
+epoch 14 Full-val-map_macro: tensor(38.3568)
+epoch 14 Full-val-map_micro: tensor(49.0775)
+epoch 14 sampled-val-map: tensor(38.6294)
+tensor([77.0689,  0.0000, 73.8066,  0.0000,  0.0000, 11.3386, 13.6631,  0.0000,
+        52.4536, 98.0312,  0.0000, 19.3642,  0.8107,  0.0000,  1.1273])
+epoch 14 Total_Time 380.22685408592224 Epoch_time 24.350624561309814
+Epoch 15/299
+----------
+epoch 15 train-map_macro: tensor(17.9028)
+epoch 15 train-map_micro: tensor(60.6878)
+epoch 15 Full-val-map_macro: tensor(30.2860)
+epoch 15 Full-val-map_micro: tensor(33.2051)
+epoch 15 sampled-val-map: tensor(30.8715)
+tensor([81.7702,  0.0000, 63.6181,  0.0000,  0.0000,  5.6590,  4.2182, 15.6500,
+        17.2814, 56.2230,  0.0000, 29.8444,  3.5794,  0.0000,  0.0000])
+epoch 15 Total_Time 404.54627799987793 Epoch_time 24.31809663772583
+Epoch 16/299
+----------
+epoch 16 train-map_macro: tensor(20.6830)
+epoch 16 train-map_micro: tensor(57.8048)
+epoch 16 Full-val-map_macro: tensor(35.4113)
+epoch 16 Full-val-map_micro: tensor(54.8088)
+epoch 16 sampled-val-map: tensor(34.7869)
+tensor([70.8087,  0.0000, 82.7511,  0.7065, 65.0467,  7.8010,  1.0888,  0.0000,
+        41.6472, 84.8210,  6.7402, 41.4184,  7.2090,  7.4045,  0.0000])
+epoch 16 Total_Time 428.9765393733978 Epoch_time 24.42892551422119
+Epoch 17/299
+----------
+epoch 17 train-map_macro: tensor(20.1466)
+epoch 17 train-map_micro: tensor(69.5231)
+epoch 17 Full-val-map_macro: tensor(28.9415)
+epoch 17 Full-val-map_micro: tensor(55.4106)
+epoch 17 sampled-val-map: tensor(32.3382)
+tensor([81.8908,  8.3858, 72.8002,  0.0000,  0.0000,  0.8351,  0.0000,  0.0000,
+        52.2190, 82.8480,  2.7481, 15.3847,  0.0000,  1.7994,  4.4715])
+epoch 17 Total_Time 454.75003385543823 Epoch_time 25.77152109146118
+Epoch 18/299
+----------
+epoch 18 train-map_macro: tensor(21.5658)
+epoch 18 train-map_micro: tensor(53.1269)
+epoch 18 Full-val-map_macro: tensor(35.3656)
+epoch 18 Full-val-map_micro: tensor(59.8206)
+epoch 18 sampled-val-map: tensor(36.3780)
+tensor([ 62.8730,   0.0000,  76.1625,   0.0000,   2.8057,   0.0000,  45.1299,
+          0.0000,  55.7471, 100.0000,   0.4399,  16.2787,   0.5128,   3.8300,
+          0.0000])
+epoch 18 Total_Time 479.3400831222534 Epoch_time 24.58855152130127
+Epoch 19/299
+----------
+epoch 19 train-map_macro: tensor(19.5077)
+epoch 19 train-map_micro: tensor(57.4216)
+epoch 19 Full-val-map_macro: tensor(33.0755)
+epoch 19 Full-val-map_micro: tensor(47.6945)
+epoch 19 sampled-val-map: tensor(37.0014)
+tensor([ 55.4835,   6.5203,  77.4589,   0.0000, 100.0000,  17.7691,  14.0637,
+          0.0000,  54.1955,  58.0372,   0.0000,  17.0810,   0.0000,   4.9447,
+          1.4619])
+epoch 19 Total_Time 503.4960050582886 Epoch_time 24.153003692626953
+Epoch 20/299
+----------
+epoch 20 train-map_macro: tensor(23.8094)
+epoch 20 train-map_micro: tensor(72.9323)
+epoch 20 Full-val-map_macro: tensor(37.2587)
+epoch 20 Full-val-map_micro: tensor(46.1676)
+epoch 20 sampled-val-map: tensor(37.7034)
+tensor([27.1885,  0.0000, 61.6947,  9.0307,  0.0000, 10.6626, 18.7337,  0.0000,
+        75.7264, 98.5962, 15.3970, 22.3010,  0.0000,  0.0000,  0.0000])
+epoch 20 Total_Time 528.8277878761292 Epoch_time 25.328779935836792
+Epoch 21/299
+----------
+epoch 21 train-map_macro: tensor(27.9033)
+epoch 21 train-map_micro: tensor(63.4522)
+epoch 21 Full-val-map_macro: tensor(33.1891)
+epoch 21 Full-val-map_micro: tensor(65.4143)
+epoch 21 sampled-val-map: tensor(33.9002)
+tensor([ 7.4896,  0.0000, 82.7835,  0.0000,  1.2437, 29.1453, 11.7886,  0.0000,
+        79.2495, 59.6047,  0.0000, 32.1691,  1.6274,  0.0000,  0.0000])
+epoch 21 Total_Time 553.2974712848663 Epoch_time 24.46782088279724
+Epoch 22/299
+----------
+epoch 22 train-map_macro: tensor(18.8436)
+epoch 22 train-map_micro: tensor(65.5863)
+epoch 22 Full-val-map_macro: tensor(19.8291)
+epoch 22 Full-val-map_micro: tensor(51.9818)
+epoch 22 sampled-val-map: tensor(20.3205)
+tensor([62.6823,  3.0901, 78.2940,  0.0000,  0.8689, 14.8888,  8.9368,  0.0000,
+         9.8180, 14.0984,  0.0000,  8.0983,  2.4292,  0.0000,  0.0000])
+epoch 22 Total_Time 577.5376026630402 Epoch_time 24.23875093460083
+Epoch 23/299
+----------
+epoch 23 train-map_macro: tensor(22.8918)
+epoch 23 train-map_micro: tensor(69.6151)
+epoch 23 Full-val-map_macro: tensor(33.2728)
+epoch 23 Full-val-map_micro: tensor(50.0643)
+epoch 23 sampled-val-map: tensor(33.5203)
+tensor([68.6423,  0.0000, 61.3796,  0.0000,  0.0000,  0.9261, 11.8851,  9.4722,
+        91.1593,  6.4737,  0.0000, 18.2240,  0.0000,  0.0000,  0.0000])
+epoch 23 Total_Time 601.6887056827545 Epoch_time 24.149431943893433
+Epoch 24/299
+----------
+epoch 24 train-map_macro: tensor(17.4721)
+epoch 24 train-map_micro: tensor(62.7309)
+epoch 24 Full-val-map_macro: tensor(31.1345)
+epoch 24 Full-val-map_micro: tensor(66.0356)
+epoch 24 sampled-val-map: tensor(32.4981)
+tensor([94.1575,  2.4195, 81.8437,  0.5673, 30.7978, 14.3556,  5.6068,  0.0000,
+        73.9107, 23.0520,  5.5633, 25.2044,  0.0000,  0.0000,  0.0000])
+epoch 24 Total_Time 626.1814970970154 Epoch_time 24.48938798904419
+Epoch 25/299
+----------
+epoch 25 train-map_macro: tensor(21.2947)
+epoch 25 train-map_micro: tensor(64.3939)
+epoch 25 Full-val-map_macro: tensor(23.9571)
+epoch 25 Full-val-map_micro: tensor(51.1126)
+epoch 25 sampled-val-map: tensor(25.1923)
+tensor([93.2308,  9.3889, 68.3899,  0.0000,  5.2536, 27.8523,  3.5517,  0.0000,
+        47.7345,  3.0792,  1.7778, 11.2747,  5.5816,  0.0000,  0.0000])
+epoch 25 Total_Time 651.0639562606812 Epoch_time 24.88090753555298
+Epoch 26/299
+----------
+epoch 26 train-map_macro: tensor(23.7666)
+epoch 26 train-map_micro: tensor(76.3958)
+epoch 26 Full-val-map_macro: tensor(38.5154)
+epoch 26 Full-val-map_micro: tensor(50.8057)
+epoch 26 sampled-val-map: tensor(39.2154)
+tensor([29.7217,  0.0000, 69.9184,  0.0000,  0.0000, 12.1397, 13.3670,  0.0000,
+        68.6339, 65.9190,  0.0000, 14.8081,  0.0000,  0.0000,  0.0000])
+epoch 26 Total_Time 675.5219833850861 Epoch_time 24.45514154434204
+Epoch 27/299
+----------
+epoch 27 train-map_macro: tensor(23.3153)
+epoch 27 train-map_micro: tensor(57.4920)
+epoch 27 Full-val-map_macro: tensor(32.6688)
+epoch 27 Full-val-map_micro: tensor(57.3982)
+epoch 27 sampled-val-map: tensor(38.2308)
+tensor([31.3361,  0.0000, 79.7994,  0.0000,  0.0000,  2.4698, 21.8804,  0.0000,
+        78.6109, 20.4571,  0.0000, 14.1501,  0.0000,  0.0000, 57.1429])
+epoch 27 Total_Time 700.0070140361786 Epoch_time 24.483277082443237
+Epoch 28/299
+----------
+epoch 28 train-map_macro: tensor(23.2387)
+epoch 28 train-map_micro: tensor(61.3310)
+epoch 28 Full-val-map_macro: tensor(35.0114)
+epoch 28 Full-val-map_micro: tensor(57.4196)
+epoch 28 sampled-val-map: tensor(36.2424)
+tensor([89.8611,  0.0000, 72.8913, 10.3025,  0.0000, 26.5559,  5.1531,  0.0000,
+        49.6622, 37.4320,  0.0000, 31.7485,  0.0000,  0.0000,  2.5751])
+epoch 28 Total_Time 724.6484515666962 Epoch_time 24.6382954120636
+Epoch 29/299
+----------
+epoch 29 train-map_macro: tensor(27.0501)
+epoch 29 train-map_micro: tensor(70.1460)
+epoch 29 Full-val-map_macro: tensor(41.8211)
+epoch 29 Full-val-map_micro: tensor(60.3218)
+epoch 29 sampled-val-map: tensor(42.2596)
+tensor([81.0711,  5.9427, 82.1876,  0.0000,  0.0000,  1.6244,  0.0000,  0.0000,
+        61.9606, 70.3603,  2.7059, 32.2242,  0.0000,  0.0000,  0.0000])
+epoch 29 Total_Time 749.3041429519653 Epoch_time 24.653526544570923
+Epoch 30/299
+----------
+epoch 30 train-map_macro: tensor(22.9975)
+epoch 30 train-map_micro: tensor(66.1158)
+epoch 30 Full-val-map_macro: tensor(33.0061)
+epoch 30 Full-val-map_micro: tensor(63.4193)
+epoch 30 sampled-val-map: tensor(36.6770)
+tensor([80.6049,  5.3539, 83.2453,  0.0000,  0.0000, 25.3625, 50.7463,  0.0000,
+        51.6878,  0.5333,  0.0000, 29.8112,  0.0000,  0.0000,  2.7483])
+epoch 30 Total_Time 773.7294409275055 Epoch_time 24.422512769699097
+Epoch 31/299
+----------
+epoch 31 train-map_macro: tensor(21.8504)
+epoch 31 train-map_micro: tensor(70.6505)
+epoch 31 Full-val-map_macro: tensor(24.1026)
+epoch 31 Full-val-map_micro: tensor(53.6564)
+epoch 31 sampled-val-map: tensor(25.0217)
+tensor([52.8033,  3.2809, 76.0693,  0.0000, 54.0827,  0.5319,  5.1401,  0.0000,
+        66.2914, 19.8486,  0.2809, 16.7948,  0.0000,  3.2801,  1.8558])
+epoch 31 Total_Time 798.8715810775757 Epoch_time 25.140340566635132
+Epoch 32/299
+----------
+epoch 32 train-map_macro: tensor(27.0760)
+epoch 32 train-map_micro: tensor(75.6511)
+epoch 32 Full-val-map_macro: tensor(25.4370)
+epoch 32 Full-val-map_micro: tensor(53.9273)
+epoch 32 sampled-val-map: tensor(24.9906)
+tensor([77.2325,  0.4054, 71.0842,  0.5738,  9.5564, 10.8688,  3.0109,  0.0000,
+        19.1687, 41.3191,  0.0000, 16.6859,  0.0000,  0.0000,  0.0000])
+epoch 32 Total_Time 823.2173523902893 Epoch_time 24.344298124313354
+Epoch 33/299
+----------
+epoch 33 train-map_macro: tensor(25.9785)
+epoch 33 train-map_micro: tensor(72.5850)
+epoch 33 Full-val-map_macro: tensor(28.6560)
+epoch 33 Full-val-map_micro: tensor(53.3954)
+epoch 33 sampled-val-map: tensor(28.7350)
+tensor([80.1313,  0.9091, 83.1514,  8.7815,  0.0000, 42.8873,  1.7050,  0.0000,
+        19.5058,  0.8515,  0.0000, 47.9918,  1.4357,  0.0000,  0.0000])
+epoch 33 Total_Time 847.4891889095306 Epoch_time 24.270650625228882
+Epoch 34/299
+----------
+epoch 34 train-map_macro: tensor(19.8409)
+epoch 34 train-map_micro: tensor(64.8243)
+epoch 34 Full-val-map_macro: tensor(44.1389)
+epoch 34 Full-val-map_micro: tensor(64.3547)
+epoch 34 sampled-val-map: tensor(44.9339)
+tensor([67.8516, 13.4979, 83.5236,  0.0000, 26.8464, 14.6289,  0.0000,  0.0000,
+        75.2027, 71.3430,  0.0000, 48.9000,  2.6109,  0.0000,  0.0000])
+epoch 34 Total_Time 871.9333302974701 Epoch_time 24.442755937576294
+epoch 34 Best Val Map Update tensor(44.1389)
+logit_saved at: ./save_logit_VLM_DEPTH/34.pkl
+Epoch 35/299
+----------
+epoch 35 train-map_macro: tensor(26.1760)
+epoch 35 train-map_micro: tensor(79.4570)
+epoch 35 Full-val-map_macro: tensor(40.5809)
+epoch 35 Full-val-map_micro: tensor(67.6180)
+epoch 35 sampled-val-map: tensor(42.0956)
+tensor([71.3058,  0.0000, 86.5591,  4.8693, 16.1905, 21.4590,  0.0000,  0.0000,
+        13.0018, 66.0711, 94.1667, 45.0683,  0.0000,  2.2639,  0.0000])
+epoch 35 Total_Time 897.0286486148834 Epoch_time 25.091375589370728
+Epoch 36/299
+----------
+epoch 36 train-map_macro: tensor(31.2341)
+epoch 36 train-map_micro: tensor(73.3526)
+epoch 36 Full-val-map_macro: tensor(29.7580)
+epoch 36 Full-val-map_micro: tensor(51.9583)
+epoch 36 sampled-val-map: tensor(33.2259)
+tensor([58.4977,  3.0097, 79.1909,  0.0000,  6.9456,  0.0000,  0.0000,  0.0000,
+        47.8790,  7.6923,  0.0000, 29.3657,  0.0000,  0.0000,  0.0000])
+epoch 36 Total_Time 921.7918965816498 Epoch_time 24.760169506072998
+Epoch 37/299
+----------
+epoch 37 train-map_macro: tensor(27.9776)
+epoch 37 train-map_micro: tensor(75.2556)
+epoch 37 Full-val-map_macro: tensor(42.8285)
+epoch 37 Full-val-map_micro: tensor(60.2346)
+epoch 37 sampled-val-map: tensor(43.9250)
+tensor([ 68.5310,   0.0000,  83.9632,   0.8300,  48.8074,  43.8018,   2.4235,
+          0.0000,  54.5980, 100.0000,   0.0000,  34.3357,   1.9592,   0.0000,
+          0.0000])
+epoch 37 Total_Time 948.1136858463287 Epoch_time 26.320287466049194
+Epoch 38/299
+----------
+epoch 38 train-map_macro: tensor(26.3747)
+epoch 38 train-map_micro: tensor(69.9327)
+epoch 38 Full-val-map_macro: tensor(41.4424)
+epoch 38 Full-val-map_micro: tensor(75.2461)
+epoch 38 sampled-val-map: tensor(41.9709)
+tensor([89.4807,  0.0000, 82.8937,  0.0000,  0.3811,  2.7390, 17.9142,  0.0000,
+        82.4110,  1.5133,  0.0000, 58.4338,  0.0000,  0.0000,  0.0000])
+epoch 38 Total_Time 973.1206464767456 Epoch_time 25.00541043281555
+Epoch 39/299
+----------
+epoch 39 train-map_macro: tensor(25.9951)
+epoch 39 train-map_micro: tensor(81.0489)
+epoch 39 Full-val-map_macro: tensor(32.9291)
+epoch 39 Full-val-map_micro: tensor(56.9516)
+epoch 39 sampled-val-map: tensor(34.6003)
+tensor([69.5057,  8.1265, 72.7619,  0.0000,  2.0292, 55.0850,  7.1830,  0.0000,
+        92.3366, 43.1279, 17.7391, 39.4255,  0.6005,  0.0000,  7.2826])
+epoch 39 Total_Time 999.0538821220398 Epoch_time 25.931968927383423
+Epoch 40/299
+----------
+epoch 40 train-map_macro: tensor(27.4294)
+epoch 40 train-map_micro: tensor(71.4684)
+epoch 40 Full-val-map_macro: tensor(43.2859)
+epoch 40 Full-val-map_micro: tensor(64.6690)
+epoch 40 sampled-val-map: tensor(43.2796)
+tensor([77.8909,  0.7960, 81.2324,  0.0000, 97.8700, 80.3208,  9.8284,  0.0000,
+        74.5460,  1.5567,  0.5186, 50.1641,  1.3517,  0.0000,  0.0000])
+epoch 40 Total_Time 1024.8261518478394 Epoch_time 25.76830768585205
+Epoch 41/299
+----------
+epoch 41 train-map_macro: tensor(19.9890)
+epoch 41 train-map_micro: tensor(70.5826)
+epoch 41 Full-val-map_macro: tensor(38.5047)
+epoch 41 Full-val-map_micro: tensor(58.3499)
+epoch 41 sampled-val-map: tensor(40.4117)
+tensor([82.8326,  0.0000, 72.5803, 13.2306,  0.0000, 65.2849, 15.2682,  0.0000,
+        54.5106, 34.7334,  0.0000, 24.5826,  0.0000,  0.0000,  0.6819])
+epoch 41 Total_Time 1051.2586438655853 Epoch_time 26.42798161506653
+Epoch 42/299
+----------
+epoch 42 train-map_macro: tensor(29.3416)
+epoch 42 train-map_micro: tensor(78.8304)
+Traceback (most recent call last):
+  File "/data/stars/user/areka/MS-TCT/train.py", line 351, in <module>
+    run([(rgb_model, 0, dataloaders, optimizer, lr_sched, args.comp_info)], criterion, num_epochs=int(args.epoch))
+  File "/data/stars/user/areka/MS-TCT/train.py", line 119, in run
+    prob_val, val_loss, val_map_macro, val_map_micro, macro_avg_eval, micro_avg_eval = val_step(model, gpu, dataloader['val'], epoch)
+  File "/data/stars/user/areka/MS-TCT/train.py", line 265, in val_step
+    outputs, loss, probs, err = run_network(model,  data_rgb, data_flow, data_depth, gpu, epoch)
+  File "/data/stars/user/areka/MS-TCT/train.py", line 186, in run_network
+    outputs_final,out_hm = model(inputs_rgb, inputs_flow, inputs_depth)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/stars/user/areka/MS-TCT/MSTCT/MSTCT_Model.py", line 98, in forward
+    inputs_flow = self.TemporalEncoder2(inputs_flow)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/stars/user/areka/MS-TCT/MSTCT/Temporal_Encoder.py", line 269, in forward
+    x = blk(x)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/stars/user/areka/MS-TCT/MSTCT/Temporal_Encoder.py", line 167, in forward
+    x = x + beta * self.Global_Relational_Block(self.norm1(x))
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/stars/user/areka/MS-TCT/MSTCT/Temporal_Encoder.py", line 99, in forward
+    kv = self.kv(x).reshape(B, -1, 2, self.num_heads, C // self.num_heads).permute(2, 0, 3, 1, 4)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/modules/linear.py", line 103, in forward
+    return F.linear(input, self.weight, self.bias)
+KeyboardInterrupt

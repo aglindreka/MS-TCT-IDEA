@@ -8,6 +8,7 @@ import os.path
 from tqdm import tqdm
 import random
 from utils import *
+import numpy as np
 
 
 def make_dataset(split_file, split, root_rgb, root_flow, root_depth, num_classes=15):
@@ -159,6 +160,7 @@ class Charades(data_utl.Dataset):
         ################3RGB#########################################
         entry_rgb = self.data_rgb[index]
         feat_rgb = np.load(os.path.join(self.root_rgb, entry_rgb[0] + '.npy'))
+
         feat_rgb = feat_rgb.reshape((feat_rgb.shape[0], 1, 1, feat_rgb.shape[-1]))
         features_rgb = feat_rgb.astype(np.float32)
 
@@ -184,6 +186,8 @@ class Charades(data_utl.Dataset):
     ####################################################flow#########################################
         entry_flow = self.data_flow[index]
         feat_flow = np.load(os.path.join(self.root_flow, entry_flow[0] + '.npy'))
+        #only for vificlip
+        # feat_flow =  np.mean(feat_flow, axis=1)
         feat_flow = feat_flow.reshape((feat_flow.shape[0], 1, 1, feat_flow.shape[-1]))
         features_flow = feat_flow.astype(np.float32)
 
@@ -210,6 +214,7 @@ class Charades(data_utl.Dataset):
     ####################################################depth#########################################
         entry_depth = self.data_depth[index]
         feat_depth = np.load(os.path.join(self.root_depth, entry_depth[0] + '.npy'))
+        feat_depth =  np.mean(feat_depth, axis=1)
         feat_depth = feat_depth.reshape((feat_depth.shape[0], 1, 1, feat_depth.shape[-1]))
         features_depth = feat_depth.astype(np.float32)
 

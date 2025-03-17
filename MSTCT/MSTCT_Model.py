@@ -79,8 +79,8 @@ class MSTCT(nn.Module):
         self.attention3 = nn.MultiheadAttention(576, 4).to(device)
         self.attention4 = nn.MultiheadAttention(864, 4).to(device)
 
-        self.linear = nn.Linear(1568, 768)
-        self.linear2 = nn.Linear(128, 768)
+        self.linear = nn.Linear(256, 768)#flow 1568
+        self.linear2 = nn.Linear(256, 768)#depth 128
 
     def forward(self, inputs_rgb, inputs_flow, inputs_depth):
 

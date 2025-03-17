@@ -1,0 +1,37 @@
+Epoch 0/299
+----------
+/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/functional.py:1944: UserWarning: nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.
+  warnings.warn("nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.")
+/home/areka/miniconda3/envs/pdan_a/lib/python3.10/site-packages/torch/nn/_reduction.py:42: UserWarning: size_average and reduce args will be deprecated, please use reduction='sum' instead.
+  warnings.warn(warning.format(ret))
+/data/stars/user/areka/MS-TCT/apmeter.py:118: UserWarning: torch.range is deprecated and will be removed in a future release because its behavior is inconsistent with Python's range builtin. Instead, use torch.arange, which produces values in [start, end).
+  rg = torch.range(1, self.scores.size(0)).float()
+/data/stars/user/areka/MS-TCT/apmeter.py:145: UserWarning: indexing with dtype torch.uint8 is now deprecated, please use a dtype torch.bool instead. (Triggered internally at  /opt/conda/conda-bld/pytorch_1646755888698/work/aten/src/ATen/native/IndexingUtils.h:28.)
+  ap[k] = precision[truth.byte()].sum() / max(truth.sum(), 1)
+epoch 0 train-map_macro: tensor(6.5456)
+epoch 0 train-map_micro: tensor(23.1224)
+epoch 0 Full-val-map_macro: tensor(30.2213)
+epoch 0 Full-val-map_micro: tensor(45.4830)
+epoch 0 sampled-val-map: tensor(31.0953)
+tensor([19.9347,  0.0000, 66.9996,  0.0000, 10.3601,  4.6743,  0.0000,  0.0000,
+        66.9821, 59.2988,  0.1938, 20.3192,  0.0000,  0.0000,  0.0000])
+epoch 0 Total_Time 26.812413454055786 Epoch_time 26.81241202354431
+epoch 0 Best Val Map Update tensor(30.2213)
+logit_saved at: ./save_logit_VLM_SAM/0.pkl
+Epoch 1/299
+----------
+epoch 1 train-map_macro: tensor(8.0190)
+epoch 1 train-map_micro: tensor(37.5626)
+epoch 1 Full-val-map_macro: tensor(25.4245)
+epoch 1 Full-val-map_micro: tensor(35.9330)
+epoch 1 sampled-val-map: tensor(27.2087)
+tensor([91.8568, 19.1930, 55.9960, 23.4127, 25.8176,  0.0000,  3.2431,  0.0000,
+        34.4329, 13.9639, 14.0310, 16.7612,  0.5869,  0.0000,  0.0000])
+epoch 1 Total_Time 51.2202513217926 Epoch_time 24.401083946228027
+epoch 1 Best Val Map Update tensor(25.4245)
+Traceback (most recent call last):
+  File "/data/stars/user/areka/MS-TCT/train.py", line 354, in <module>
+    run([(rgb_model, 0, dataloaders, optimizer, lr_sched, args.comp_info)], criterion, num_epochs=int(args.epoch))
+  File "/data/stars/user/areka/MS-TCT/train.py", line 143, in run
+    pickle.dump(prob_val, open('./save_logit_VLM_SAM/' + str(epoch) + '.pkl', 'wb'), pickle.HIGHEST_PROTOCOL)
+KeyboardInterrupt

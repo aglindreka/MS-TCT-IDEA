@@ -8,9 +8,9 @@ python train.py \
 -train True \
 -num_clips 128 \
 -skip 0 \
--lr 0.00001 \
+-lr 0.0001 \
 -comp_info False \
--epoch 1000 \
+-epoch 300 \
 -unisize True \
 -alpha_l 10 \
 -beta_l 1 \

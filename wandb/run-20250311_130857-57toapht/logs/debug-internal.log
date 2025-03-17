@@ -1,0 +1,15 @@
+{"time":"2025-03-11T13:08:58.569829078+01:00","level":"INFO","msg":"stream: starting","core version":"0.19.6","symlink path":"/data/stars/user/areka/MS-TCT/wandb/run-20250311_130857-57toapht/logs/debug-core.log"}
+{"time":"2025-03-11T13:08:58.679548126+01:00","level":"INFO","msg":"created new stream","id":"57toapht"}
+{"time":"2025-03-11T13:08:58.679882257+01:00","level":"INFO","msg":"stream: started","id":"57toapht"}
+{"time":"2025-03-11T13:08:58.679915242+01:00","level":"INFO","msg":"handler: started","stream_id":"57toapht"}
+{"time":"2025-03-11T13:08:58.679909952+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"57toapht"}
+{"time":"2025-03-11T13:08:58.679968193+01:00","level":"INFO","msg":"sender: started","stream_id":"57toapht"}
+{"time":"2025-03-11T13:08:59.097042373+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-11T13:24:28.972650316+01:00","level":"INFO","msg":"stream: closing","id":"57toapht"}
+{"time":"2025-03-11T13:24:28.972680437+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-11T13:24:28.973740303+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-11T13:24:29.66532332+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-11T13:24:29.896668077+01:00","level":"INFO","msg":"handler: closed","stream_id":"57toapht"}
+{"time":"2025-03-11T13:24:29.896730131+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":"57toapht"}
+{"time":"2025-03-11T13:24:29.896740221+01:00","level":"INFO","msg":"sender: closed","stream_id":"57toapht"}
+{"time":"2025-03-11T13:24:29.8977062+01:00","level":"INFO","msg":"stream: closed","id":"57toapht"}
