@@ -58,9 +58,12 @@ if args.dataset == 'charades':
 
     if str(args.unisize) == "True":
         print("uni-size padd all T to",args.num_clips)
-        from charades_dataloader import collate_fn_unisize
+        from charades_dataloader import collate_fn_unisize, collate_fn_unisize_eval
         collate_fn_f = collate_fn_unisize(args.num_clips)
         collate_fn = collate_fn_f.charades_collate_fn_unisize
+
+        collate_fn_f_val = collate_fn_unisize_eval(args.num_clips)
+        collate_fn_val = collate_fn_f_val.charades_collate_fn_unisize_eval
     else:
         from charades_dataloader import mt_collate_fn as collate_fn
 
@@ -68,24 +71,24 @@ if args.dataset == 'charades':
     # train_split = '/home/areka/PDAN/data/training_pdan.json'
     # train_split = '/home/areka/PDAN/data/mma_52_pdan.json'
     test_split = train_split
-    rgb_root =  '/data/stars/user/areka/files_features_swin/mpiigi'
-    # rgb_root = '/data/stars/user/areka/files_features_swin/mm52/train'
-    flow_root = '/data/stars/user/areka/Features_modalities_mpiigi/SAM' # optional
-    depth_root = '/data/stars/user/areka/Features_modalities_mpiigi/pose_estimation' # optional
-    # flow_root = '/data/stars/user/areka/Features_modalities_mpiigi/Optical_Flow' # optional
-    # depth_root = '/data/stars/user/areka/Features_modalities_mpiigi/vificlip'
-    # flow_root = '/data/stars/user/areka/Features_modalities_mpiigi/Depth Feature'  # optional
+    rgb_root =  '/data/stars/user/areka/Features_diferent_models_MPIIGI/features_mpiigi_16'
+
+    SAM_root = '/data/stars/user/areka/Features_modalities_mpiigi/SAM' # optional
+    pose_root = '/data/stars/user/areka/Features_modalities_mpiigi/pose_estimation' # optional
+    flow_root = '/data/stars/user/areka/Features_modalities_mpiigi/Optical_Flow' # optional
+    VLM_root = '/data/stars/user/areka/Features_modalities_mpiigi/vificlip'
+    depth_root = '/data/stars/user/areka/Features_modalities_mpiigi/Depth Feature'  # optional
     # rgb_of=[rgb_root,flow_root]
     classes = 15
 
 
-def load_data(train_split, val_split, rgb_root, flow_root, depth_root):
+def load_data(train_split, val_split, rgb_root, flow_root, depth_root, pose_root, SAM_root, VLM_root):
     # Load Data
     print('load data', rgb_root)
 
     if len(train_split) > 0:
 
-        dataset = Dataset(train_split, 'training', rgb_root, flow_root, depth_root, batch_size, classes, int(args.num_clips), int(args.skip))
+        dataset = Dataset(train_split, 'training', rgb_root, flow_root, depth_root, pose_root, SAM_root, VLM_root, batch_size, classes, int(args.num_clips), int(args.skip))
 
 
         dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=8,
@@ -97,9 +100,9 @@ def load_data(train_split, val_split, rgb_root, flow_root, depth_root):
         dataset = None
         dataloader = None
 
-    val_dataset = Dataset(val_split, 'testing', rgb_root, flow_root, depth_root, batch_size, classes, int(args.num_clips), int(args.skip))
+    val_dataset = Dataset(val_split, 'testing', rgb_root, flow_root, depth_root, pose_root, SAM_root, VLM_root, batch_size, classes, int(args.num_clips), int(args.skip))
     val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=True, num_workers=2,
-                                                 pin_memory=True, collate_fn=collate_fn)
+                                                 pin_memory=True, collate_fn=collate_fn_val)
     val_dataloader.root = rgb_root
     dataloaders = {'train': dataloader, 'val': val_dataloader}
     datasets = {'train': dataset, 'val': val_dataset}
@@ -137,11 +140,11 @@ def run(models, criterion, num_epochs=50):
                 print('Macro avaraging in train', np.array(macro_avg_train).mean(), 'Micro avaraging in train', np.array(macro_avg_train).mean())
                 print('Macro avaraging in eval', np.array(macro_avg_eval).mean(), 'Micro avaraging in eval', np.array(micro_avg_eval).mean())
 
-            # if Best_val_map < val_map_macro:
-            #     Best_val_map = val_map_macro
-            print("epoch",epoch,"Best Val Map Update",val_map_macro)
-            pickle.dump(prob_val, open('./save_logit_SAM_POSE/' + str(epoch) + '.pkl', 'wb'), pickle.HIGHEST_PROTOCOL)
-            print("logit_saved at:","./save_logit_SAM_POSE/" + str(epoch) + ".pkl")
+            if Best_val_map < val_map_macro:
+                Best_val_map = val_map_macro
+                print("epoch",epoch,"Best Val Map Update",val_map_macro)
+                pickle.dump(prob_val, open('./save_logit_ALL_mae_0001_256/' + str(epoch) + '.pkl', 'wb'), pickle.HIGHEST_PROTOCOL)
+                print("logit_saved at:","./save_logit_ALL_mae_0001_256/" + str(epoch) + ".pkl")
 
 
 def eval_model(model, dataloader, baseline=False):
@@ -155,7 +158,7 @@ def eval_model(model, dataloader, baseline=False):
     return results
 
 
-def run_network(model, data_rgb, data_flow, depth_features, gpu, epoch=0, baseline=False):
+def run_network(model, data_rgb, data_flow, depth_features, pose_features, SAM_features, VLM_features, gpu, epoch=0, baseline=False, is_train=True):
     #Rgb#############################################################################################3
     inputs_rgb, mask_rgb, labels_rgb, other_rgb, hm_rgb = data_rgb
     # wrap them in Variable
@@ -167,26 +170,66 @@ def run_network(model, data_rgb, data_flow, depth_features, gpu, epoch=0, baseli
     inputs_rgb = inputs_rgb.squeeze(3).squeeze(3)
     #################################################333######################
 
+    if is_train:
+        #flow#########################################################################3
+        inputs_flow, mask_flow, labels_flow, other_flow, hm_flow = data_flow
+        # wrap them in Variable
+        inputs_flow = Variable(inputs_flow.cuda(gpu))
 
-    #flow#########################################################################3
-    inputs_flow, mask_flow, labels_flow, other_flow, hm_flow = data_flow
-    # wrap them in Variable
-    inputs_flow = Variable(inputs_flow.cuda(gpu))
+
+        inputs_flow = inputs_flow.squeeze(3).squeeze(3)
+
+        ###############################################################################33333
+
+        # depth#########################################################################3
+        inputs_depth, mask_depth, labels_depth, other_depth, hm_depth= depth_features
+        # wrap them in Variable
+        inputs_depth = Variable(inputs_depth.cuda(gpu))
+
+        inputs_depth = inputs_depth.squeeze(3).squeeze(3)
+
+        ###############################################################################33333
+       # POSE#########################################################################3
+        inputs_pose, mask_pose, labels_pose, other_pose, hm_pose= pose_features
+        # wrap them in Variable
+        inputs_pose = Variable(inputs_pose.cuda(gpu))
+
+        inputs_pose = inputs_pose.squeeze(3).squeeze(3)
+
+        ###############################################################################33333
+        # SAM#########################################################################3
+        inputs_SAM, mask_SAM, labels_SAM, other_SAM, hm_SAM= SAM_features
+        # wrap them in Variable
+        inputs_SAM = Variable(inputs_SAM.cuda(gpu))
+
+        inputs_SAM = inputs_SAM.squeeze(3).squeeze(3)
+
+        ###############################################################################33333
+        # VLM#########################################################################3
+        inputs_VLM, mask_VLM, labels_VLM, other_VLM, hm_VLM= VLM_features
+        # wrap them in Variable
+        inputs_VLM = Variable(inputs_VLM.cuda(gpu))
+
+        inputs_VLM = inputs_VLM.squeeze(3).squeeze(3)
+
+    ###############################################################################33333
+    else:
+        # flow#########################################################################3
+        inputs_flow, mask_flow, labels_flow, other_flow, hm_flow = data_flow
 
 
-    inputs_flow = inputs_flow.squeeze(3).squeeze(3)
+
+        inputs_depth, mask_depth, labels_depth, other_depth, hm_depth = depth_features
+        inputs_pose, mask_pose, labels_pose, other_pose, hm_pose = pose_features
+
+        inputs_SAM, mask_SAM, labels_SAM, other_SAM, hm_SAM = SAM_features
+        inputs_VLM, mask_VLM, labels_VLM, other_VLM, hm_VLM = VLM_features
+
+
 
     ###############################################################################33333
 
-    # depth#########################################################################3
-    inputs_depth, mask_depth, labels_depth, other_depth, hm_depth= depth_features
-    # wrap them in Variable
-    inputs_depth = Variable(inputs_depth.cuda(gpu))
-
-    inputs_depth = inputs_depth.squeeze(3).squeeze(3)
-
-    ###############################################################################33333
-    outputs_final,out_hm = model(inputs_rgb, inputs_flow, inputs_depth)
+    outputs_final, out_hm, KL_total = model(inputs_rgb, inputs_flow, inputs_depth, inputs_pose, inputs_SAM, inputs_VLM, is_train)
 
     # Logit
     probs_f = F.sigmoid(outputs_final) * mask.unsqueeze(2)
@@ -200,7 +243,7 @@ def run_network(model, data_rgb, data_flow, depth_features, gpu, epoch=0, baseli
     corr = torch.sum(mask)
     tot = torch.sum(mask)
 
-    return outputs_final, loss, probs_f, corr / tot
+    return outputs_final, (loss+KL_total), probs_f, corr / tot
 
 
 def train_step(model, gpu, optimizer, dataloader, epoch):
@@ -216,13 +259,16 @@ def train_step(model, gpu, optimizer, dataloader, epoch):
         data_rgb = [data[0], data[1], data[2], data[3], data[4]]
         data_flow = [data[5], data[6], data[7], data[8], data[9]]
         data_depth = [data[10], data[11], data[12], data[13], data[14]]
+        data_pose = [data[15], data[16], data[17], data[18], data[19]]
+        data_SAM = [data[20], data[21], data[22], data[23], data[24]]
+        data_VLM = [data[25], data[26], data[27], data[28], data[29]]
 
 
 
         optimizer.zero_grad()
         num_iter += 1
 
-        outputs, loss, probs, err = run_network(model, data_rgb, data_flow, data_depth, gpu, epoch)
+        outputs, loss, probs, err = run_network(model, data_rgb, data_flow, data_depth, data_pose, data_SAM, data_VLM, gpu, epoch, is_train=True)
         apm.add(probs.data.cpu().numpy()[0], data_rgb[2].numpy()[0])
         error += err.data
         tot_loss += loss.data
@@ -259,13 +305,15 @@ def val_step(model, gpu, dataloader, epoch):
     for data in dataloader:
         num_iter += 1
 
-
         data_rgb = [data[0], data[1], data[2], data[3], data[4]]
         data_flow = [data[5], data[6], data[7], data[8], data[9]]
         data_depth = [data[10], data[11], data[12], data[13], data[14]]
+        data_pose = [data[15], data[16], data[17], data[18], data[19]]
+        data_SAM = [data[20], data[21], data[22], data[23], data[24]]
+        data_VLM = [data[25], data[26], data[27], data[28], data[29]]
         other = data_rgb[3]
+        outputs, loss, probs, err = run_network(model,  data_rgb, data_flow, data_depth, data_pose, data_SAM, data_VLM, gpu, epoch, is_train=False)
 
-        outputs, loss, probs, err = run_network(model,  data_rgb, data_flow, data_depth, gpu, epoch)
         if sum(data_rgb[1].numpy()[0])>25:
             p1,l1=sampled_25(probs.data.cpu().numpy()[0],data_rgb[2].numpy()[0],data_rgb[1].numpy()[0])
             sampled_apm.add(p1,l1)
@@ -300,14 +348,14 @@ if __name__ == '__main__':
         dataloaders, datasets = load_data(train_split, test_split, flow_root)
     elif args.mode == 'rgb':
         print('RGB mode', rgb_root)
-        dataloaders, datasets = load_data(train_split, test_split, rgb_root, flow_root, depth_root)
+        dataloaders, datasets = load_data(train_split, test_split, rgb_root, flow_root, depth_root, pose_root, SAM_root, VLM_root)
 
 
     wandb.login(key=config.WANDB_KEY)
     config_dict = dict()
 
-    if not os.path.exists('./save_logit_SAM_POSE'):
-        os.makedirs('./save_logit_SAM_POSE')
+    if not os.path.exists('./save_logit_ALL_mae_0001_256'):
+        os.makedirs('./save_logit_ALL_mae_0001_256')
 
     if args.train:
 
@@ -322,7 +370,7 @@ if __name__ == '__main__':
             # B
             num_block = 3
             # H
-            head = 4
+            head = 8
             # theta
             mlp_ratio = 8
             # D_0

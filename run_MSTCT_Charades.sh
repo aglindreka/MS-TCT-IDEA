@@ -6,13 +6,13 @@ python train.py \
 -mode rgb \
 -model MS_TCT \
 -train True \
--num_clips 128 \
+-num_clips 2100 \
 -skip 0 \
 -lr 0.0001 \
 -comp_info False \
--epoch 300 \
+-epoch 100 \
 -unisize True \
--alpha_l 10 \
--beta_l 1 \
+-alpha_l 1 \
+-beta_l 0.05 \
 -batch_size 1 \
 -num_layer 8
