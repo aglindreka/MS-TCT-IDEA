@@ -164,8 +164,8 @@ class GLRBlock(nn.Module):
                 beta = self.GatingMechanism_4(self.Global_Relational_Block(self.norm1(x)), self.Local_Relational_Block(self.norm2(x)))
 
 
-        x = x + beta * self.Global_Relational_Block(self.norm1(x))
-        x = x + (1-beta) * self.Local_Relational_Block(self.norm2(x))
+        x = x + (beta * self.Global_Relational_Block(self.norm1(x)))
+        x = x + ((1-beta) * self.Local_Relational_Block(self.norm2(x)))
         return x
 
 class Temporal_Merging_Block(nn.Module):

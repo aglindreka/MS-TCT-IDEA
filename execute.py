@@ -4,7 +4,7 @@ import re
 
 # Directory containing the .pkl files
 # pkl_directory = "/data/stars/user/areka/MS-TCT/save_logit_ALL_KL/"
-pkl_directory = '/data/stars/user/areka/MULTIMEDIA_CONFERANCE_2025/MS-TCT/save_logit'
+pkl_directory = '/data/stars/user/areka/MS-TCT/save_logit_ALL_mae_46'
 # Get a list of all .pkl files in the directory
 pkl_files = [f for f in os.listdir(pkl_directory) if f.endswith('.pkl')]
 
